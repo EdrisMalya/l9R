@@ -1,0 +1,45 @@
+import React from 'react';
+import {IconButton} from "@mui/material";
+import {TrashIcon} from "@heroicons/react/24/solid";
+
+const PermissionList = ({ permissions, deletePermission }) => {
+    return (
+        <div>
+            <p className={'text-gray-300 text-sm'}>Permissions</p>
+            <div className={'border dark:border-gray-700 p-3 mt-2 rounded-lg'}>
+                {permissions?.map((permission) =>(
+                    <span className={'m-1 inline-block rounded-2xl border border-gray-600 p-3 text-xs'}>
+                        <div className={'flex items-center space-x-2'}>
+                            <div className={'flex-grow'}>
+                                <span className={'font-bold'}>
+                                    Name: <span>{permission.name}</span>
+                                </span>
+                                <br />
+                                <span className={'font-bold'}>
+                                    Code name:{' '}
+                                    <span
+                                        className={
+                                            'inline-block rounded-lg bg-gray-300 px-1 transition duration-150 ease-in-out hover:scale-110 dark:bg-gray-600'
+                                        }>
+                                        {permission.key}
+                                    </span>
+                                </span>
+                            </div>
+                            <div>
+                                <IconButton
+                                    onClick={()=>deletePermission(permission?.id)}
+                                    size={'small'}>
+                                    <TrashIcon
+                                        className={'h-3 text-red-500'}
+                                    />
+                                </IconButton>
+                            </div>
+                        </div>
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default PermissionList;
