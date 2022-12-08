@@ -1,8 +1,12 @@
-import React from 'react';
-import {Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, IconButton} from "@mui/material";
-import {PlusIcon} from "@heroicons/react/24/solid";
+import React from 'react'
+import {
+    Accordion,
+    AccordionActions,
+    AccordionDetails,
+    AccordionSummary,
+} from '@mui/material'
 
-const Collapsable = ({ title, content, actions, className }) => {
+const Collapsable = ({ title, content, actions, className, children }) => {
     return (
         <Accordion className={className}>
             <AccordionSummary className={'dark:!bg-gray-800 p-0'}>
@@ -10,12 +14,13 @@ const Collapsable = ({ title, content, actions, className }) => {
             </AccordionSummary>
             <AccordionDetails className={'dark:!bg-gray-800'}>
                 {content}
+                {children}
             </AccordionDetails>
             <AccordionActions className={'dark:!bg-gray-800 !justify-start'}>
                 {actions}
             </AccordionActions>
         </Accordion>
-    );
-};
+    )
+}
 
-export default Collapsable;
+export default Collapsable

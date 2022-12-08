@@ -2,9 +2,11 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "lint": "eslint resources/js --ext .ts,.tsx,.jsx,.js"
     },
     "devDependencies": {
+        "@babel/eslint-parser": "^7.19.1",
         "@headlessui/react": "^1.4.2",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-react": "^0.8.1",
@@ -14,9 +16,15 @@
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.12",
         "axios": "^1.1.2",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^8.29.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.31.11",
         "laravel-vite-plugin": "^0.7.0",
         "lodash": "^4.17.19",
         "postcss": "^8.4.18",
+        "prettier": "2.8.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "tailwind-scrollbar": "^2.0.1",
@@ -30,7 +38,7 @@
         "@mui/lab": "^5.0.0-alpha.110",
         "@mui/material": "^5.10.15",
         "@react-spring/web": "^9.5.5",
-        "prettier": "^2.8.0",
+        "dayjs": "^1.11.6",
         "prop-types": "^15.8.1",
         "react-hook-form": "^7.40.0",
         "recoil": "^0.7.6",

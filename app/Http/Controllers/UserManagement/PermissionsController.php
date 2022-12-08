@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UserManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
+use App\Models\RolePermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -38,7 +39,7 @@ class PermissionsController extends Controller
     }
     public function destroy($permissionGroup){
         $permissionGroup = PermissionGroup::query()->findOrFail($permissionGroup);
-        if($permissionGroup->permissionGroup->count() > 0){
+        if($permissionGroup->permissionGroup->count() > 0 || $permissionGroup->permissions->count() > 0){
             return back()->with(['message'=>'Group cannot be deleted because child groups exists', 'type'=>'error']);
         }
         $permissionGroup->delete();
@@ -55,7 +56,13 @@ class PermissionsController extends Controller
 
     public function savePermission(Request $request){
         $data = $request->validate([
-            'name' => 'required',
+            'name' => ['required', function($field, $value, $error) use ($request){
+                if(
+                    Permission::query()->where('name', $value)
+                        ->where('permission_group_id', $request->get('permission_group_id'))
+                        ->exists()
+                ) $error('Name already exists');
+            }],
             'permission_group_id' =>'required',
         ]);
         $data['key'] = Str::slug($data['name']);
@@ -63,7 +70,13 @@ class PermissionsController extends Controller
         return back()->with(['message'=>'Permission created successfully', 'close_modal' => true]);
     }
 
-    public function deletePermission(Permission $permission, Request $request){
-        dd($permission);
+    public function deletePermission(Permission $permission){
+
+        if(RolePermission::query()->where('permission_id', $permission->id)->exists()){
+            return back()->with(['message'=>'This permission cannot be deleted because its attached to some roles', 'type'=> 'error']);
+        }else{
+            $permission->delete();
+            return back()->with(['message'=>'Permission created successfully', 'type' => 'success']);
+        }
     }
 }
