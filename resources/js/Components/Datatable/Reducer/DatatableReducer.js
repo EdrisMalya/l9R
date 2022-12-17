@@ -35,7 +35,6 @@ export const DatatableReducer = (state, action) => {
         case DATA_TABLE_ACTIONS.RESET_ALL:
             const { limit, search, page_number, order_by, direction } =
                 action.payload
-            console.log(page_number)
             return {
                 ...state,
                 limit:

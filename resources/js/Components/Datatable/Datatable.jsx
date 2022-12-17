@@ -10,6 +10,10 @@ import TableBody from '@/Components/Datatable/Components/TableBody'
 import { Pagination } from '@mui/lab'
 import { CircularProgress } from '@mui/material'
 import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-react'
+import { useRecoilState } from 'recoil'
+import { directionAtom } from '@/atoms/directionAtom'
+import useLanguage from '@/hooks/useLanguage'
 
 const Datatable = ({
     columns,
@@ -18,18 +22,36 @@ const Datatable = ({
     editAction = true,
     deleteAction = true,
     data: tableData,
+    handleEditAction = null,
+    deleteRole,
+    editRole,
+    otherOptions,
+    datatableRoute = null,
+    objectName = null,
+    deleteRoute,
 }) => {
     const [data, dispatch] = useReducer(DatatableReducer, DATA_TABLE_INIT_VALUE)
     const [totalPage, setTotalPage] = useState(0)
     const [tableLoading, setTableLoading] = useState(false)
+    const [direction] = useRecoilState(directionAtom)
+
+    const { lang } = usePage().props
+
+    const { translate } = useLanguage()
 
     const handlePageChange = (event, value) => {
         setTableLoading(true)
         let param = {
             ...route().params,
             page: value,
+            lang,
         }
-        Inertia.get(route(route().current()), param)
+        Inertia.get(
+            datatableRoute === null
+                ? route(route().current(), { lang })
+                : datatableRoute,
+            param,
+        )
     }
 
     useEffect(() => {
@@ -64,6 +86,9 @@ const Datatable = ({
                 data={data}
                 dispatch={dispatch}
                 setTableLoading={setTableLoading}
+                lang={lang}
+                datatableRoute={datatableRoute}
+                translate={translate}
             />
             <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-5 dark:scrollbar-thumb-gray-900">
                 {tableLoading && (
@@ -78,22 +103,38 @@ const Datatable = ({
                         />
                     </div>
                 )}
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table
+                    className={`w-full text-sm ${
+                        direction === 'ltr' ? 'text-left' : 'text-right'
+                    } text-gray-500 dark:text-gray-400`}>
                     <TableHead
+                        lang={lang}
                         data={data}
                         showNumber={showNumber}
                         columns={columns}
                         actions={actions}
                         dispatch={dispatch}
                         setTableLoading={setTableLoading}
+                        datatableRoute={datatableRoute}
+                        translate={translate}
                     />
                     <TableBody
+                        handleEditAction={handleEditAction}
                         actions={actions}
                         showNumber={showNumber}
                         columns={columns}
                         editAction={editAction}
                         deleteAction={deleteAction}
                         data={tableData}
+                        setTableLoading={setTableLoading}
+                        deleteRole={deleteRole}
+                        editRole={editRole}
+                        otherActions={otherOptions}
+                        datatableRoute={datatableRoute}
+                        objectName={objectName}
+                        lang={lang}
+                        deleteRoute={deleteRoute}
+                        translate={translate}
                     />
                 </table>
             </div>

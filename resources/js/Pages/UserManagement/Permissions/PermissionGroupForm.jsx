@@ -1,37 +1,56 @@
-import React, {useEffect} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {useForm, usePage} from "@inertiajs/inertia-react";
-import {LoadingButton} from "@mui/lab";
+import React, { useEffect } from 'react'
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField,
+} from '@mui/material'
+import { useForm, usePage } from '@inertiajs/inertia-react'
+import { LoadingButton } from '@mui/lab'
 
-const PermissionGroupForm = ({ onClose, permissionParentGroupId = 0, groupId, groupName }) => {
-    const [open, setOpen] = React.useState(true);
+const PermissionGroupForm = ({
+    onClose,
+    permissionParentGroupId = 0,
+    groupId,
+    groupName,
+    lang,
+}) => {
+    const [open, setOpen] = React.useState(true)
 
     const handleClose = () => {
-        setOpen(true);
+        setOpen(true)
         onClose(false)
         reset()
-    };
+    }
 
     const { data, setData, post, processing, errors, reset, put } = useForm({
         name: groupName,
-        permission_group_id: permissionParentGroupId
-    });
+        permission_group_id: permissionParentGroupId,
+    })
 
-    const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
-    };
+    const onHandleChange = event => {
+        setData(
+            event.target.name,
+            event.target.type === 'checkbox'
+                ? event.target.checked
+                : event.target.value,
+        )
+    }
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        if(groupId===0){
-            post(route('permissions.store'), {
+    const onSubmit = e => {
+        e.preventDefault()
+        if (groupId === 0) {
+            post(route('permissions.store', { lang }), {
                 preserveScroll: true,
                 onSuccess: data => {
                     handleClose()
                 },
             })
-        }else{
-            put(route('permissions.update', {permission: groupId}), {
+        } else {
+            put(route('permissions.update', { permission: groupId, lang }), {
                 preserveScroll: true,
                 onSuccess: data => {
                     handleClose()
@@ -42,11 +61,7 @@ const PermissionGroupForm = ({ onClose, permissionParentGroupId = 0, groupId, gr
 
     return (
         <Dialog open={open} maxWidth={'sm'}>
-            <DialogTitle>
-                <h2>
-                    Create a group
-                </h2>
-            </DialogTitle>
+            <DialogTitle>Create a group</DialogTitle>
             <form onSubmit={onSubmit}>
                 <DialogContent>
                     <DialogContentText>
@@ -63,14 +78,23 @@ const PermissionGroupForm = ({ onClose, permissionParentGroupId = 0, groupId, gr
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <LoadingButton type={'submit'} loading={processing} variant={'outlined'} color={'success'}>
+                    <LoadingButton
+                        type={'submit'}
+                        loading={processing}
+                        variant={'outlined'}
+                        color={'success'}>
                         Save
                     </LoadingButton>
-                    <Button variant={'outlined'} color={'error'} onClick={handleClose}>Cancel</Button>
+                    <Button
+                        variant={'outlined'}
+                        color={'error'}
+                        onClick={handleClose}>
+                        Cancel
+                    </Button>
                 </DialogActions>
             </form>
         </Dialog>
-    );
-};
+    )
+}
 
-export default PermissionGroupForm;
+export default PermissionGroupForm

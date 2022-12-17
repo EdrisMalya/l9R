@@ -1,41 +1,62 @@
-import React, { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/inertia-react';
-import {LoadingButton} from "@mui/lab";
+import React, { useEffect, useState } from 'react'
+import Checkbox from '@/Components/Checkbox'
+import GuestLayout from '@/Layouts/GuestLayout'
+import InputError from '@/Components/InputError'
+import InputLabel from '@/Components/InputLabel'
+import TextInput from '@/Components/TextInput'
+import { Head, Link, useForm } from '@inertiajs/inertia-react'
+import { LoadingButton } from '@mui/lab'
+import { Alert, Snackbar } from '@mui/material'
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, canResetPassword, flash, lang }) {
+    const [openMessageBox, setOpenMessageBox] = useState(false)
+    const [messageType, setMessageType] = useState('success')
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: 'a',
+        email: '',
         password: '',
         remember: '',
-    });
+    })
+
+    useEffect(() => {
+        if (flash?.message !== null) {
+            setOpenMessageBox(true)
+            if (flash?.type) {
+                setMessageType(flash?.type)
+            }
+        }
+    }, [flash])
 
     useEffect(() => {
         return () => {
-            reset('password');
-        };
-    }, []);
+            reset('password')
+        }
+    }, [])
 
-    const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
-    };
+    const onHandleChange = event => {
+        setData(
+            event.target.name,
+            event.target.type === 'checkbox'
+                ? event.target.checked
+                : event.target.value,
+        )
+    }
 
-    const submit = (e) => {
-        e.preventDefault();
+    const submit = e => {
+        e.preventDefault()
 
-        post(route('login'));
-    };
+        post(route('login', { lang }))
+    }
 
     return (
         <GuestLayout>
             <Head title="Log in" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && (
+                <div className="mb-4 font-medium text-sm text-green-600">
+                    {status}
+                </div>
+            )}
 
             <form onSubmit={submit}>
                 <div>
@@ -71,25 +92,44 @@ export default function Login({ status, canResetPassword }) {
 
                 <div className="block mt-4">
                     <label className="flex items-center">
-                        <Checkbox name="remember" value={data.remember} handleChange={onHandleChange} />
-                        <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
+                        <Checkbox
+                            name="remember"
+                            value={data.remember}
+                            handleChange={onHandleChange}
+                        />
+                        <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                            Remember me
+                        </span>
                     </label>
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
                     {canResetPassword && (
                         <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                        >
+                            href={route('password.request', { lang })}
+                            className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                             Forgot your password?
                         </Link>
                     )}
-                    <LoadingButton loading={processing} variant={'outlined'} type={'submit'}>
+                    <LoadingButton
+                        loading={processing}
+                        variant={'outlined'}
+                        type={'submit'}>
                         Log in
                     </LoadingButton>
                 </div>
             </form>
+            <Snackbar
+                open={openMessageBox}
+                autoHideDuration={3000}
+                onClose={() => setOpenMessageBox(false)}>
+                <Alert
+                    onClose={() => setOpenMessageBox(false)}
+                    severity={messageType}
+                    sx={{ width: '100%' }}>
+                    {flash?.message}
+                </Alert>
+            </Snackbar>
         </GuestLayout>
-    );
+    )
 }

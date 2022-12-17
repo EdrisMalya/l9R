@@ -10,4 +10,8 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function allowed($permission, $abort=true){
+        auth()->user()->isAllowed($permission, $abort);
+    }
 }

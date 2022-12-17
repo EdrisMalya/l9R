@@ -10,10 +10,12 @@ import {
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useForm } from '@inertiajs/inertia-react'
+import { useRecoilState } from 'recoil'
+import { directionAtom } from '@/atoms/directionAtom'
 
-const RoleForm = ({ onClose, formType, name, groupId }) => {
+const RoleForm = ({ onClose, formType, name, groupId, lang, translate }) => {
     const [open, setOpen] = React.useState(true)
-
+    const [dir] = useRecoilState(directionAtom)
     const { post, processing, errors, reset, setData, data, put } = useForm({
         name: name,
     })
@@ -29,21 +31,27 @@ const RoleForm = ({ onClose, formType, name, groupId }) => {
         switch (formType) {
             case 'role_group':
                 if (groupId === 0) {
-                    post(route('role.group.save'), {
+                    post(route('role.group.save', { lang }), {
                         onSuccess: () => {
                             handleClose()
                         },
                     })
                 } else {
-                    put(route('role.group.save', { role_group_id: groupId }), {
-                        onSuccess: () => {
-                            handleClose()
+                    put(
+                        route('role.group.save', {
+                            role_group_id: groupId,
+                            lang,
+                        }),
+                        {
+                            onSuccess: () => {
+                                handleClose()
+                            },
                         },
-                    })
+                    )
                 }
                 break
             case 'role':
-                post(route('role.store', { role_group_id: groupId }), {
+                post(route('role.store', { role_group_id: groupId, lang }), {
                     onSuccess: () => {
                         handleClose()
                     },
@@ -59,10 +67,12 @@ const RoleForm = ({ onClose, formType, name, groupId }) => {
     }, [])
 
     return (
-        <Dialog open={open} maxWidth={'lg'}>
+        <Dialog open={open} maxWidth={'lg'} dir={dir}>
             <form onSubmit={handleSubmit}>
                 <DialogTitle>
-                    {formType === 'role_group' ? 'Role group' : 'Role'}
+                    {formType === 'role_group'
+                        ? translate('Role group')
+                        : translate('Role')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -72,32 +82,32 @@ const RoleForm = ({ onClose, formType, name, groupId }) => {
                                 error={errors?.name}
                                 value={data?.name}
                                 onChange={e => setData('name', e.target.value)}
-                                helperText={errors?.name}
+                                helperText={translate(errors?.name)}
                                 name={'name'}
                                 label={
                                     formType === 'role_group'
-                                        ? 'Role group name'
-                                        : 'Role name'
+                                        ? translate('Role group name')
+                                        : translate('Role')
                                 }
                             />
                         </div>
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions className={dir === 'rtl' && 'float-right'}>
                     <LoadingButton
                         size={'small'}
                         type={'submit'}
                         color={'success'}
                         loading={processing}
                         variant={'outlined'}>
-                        Save
+                        {translate('Save')}
                     </LoadingButton>
                     <Button
                         size={'small'}
                         color={'error'}
                         onClick={handleClose}
                         variant={'outlined'}>
-                        Close
+                        {translate('Close')}
                     </Button>
                 </DialogActions>
             </form>

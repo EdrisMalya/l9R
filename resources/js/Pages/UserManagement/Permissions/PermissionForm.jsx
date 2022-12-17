@@ -1,19 +1,27 @@
-import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
-import {useForm} from "@inertiajs/inertia-react";
+import React from 'react'
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField,
+} from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { useForm } from '@inertiajs/inertia-react'
 
-const PermissionForm = ({ onClose, permissionParentGroupId }) => {
+const PermissionForm = ({ onClose, permissionParentGroupId, lang }) => {
     const [open, setOpen] = React.useState(true)
 
     const { post, setData, processing, errors, data, reset } = useForm({
         name: '',
-        permission_group_id: permissionParentGroupId
+        permission_group_id: permissionParentGroupId,
     })
 
-    const onHandleChange = (event) => {
-        setData(event.target.name, event.target.value);
-    };
+    const onHandleChange = event => {
+        setData(event.target.name, event.target.value)
+    }
 
     const handleClose = () => {
         setOpen(false)
@@ -21,20 +29,18 @@ const PermissionForm = ({ onClose, permissionParentGroupId }) => {
         reset()
     }
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        post(route('save-permission'), {
+    const onSubmit = event => {
+        event.preventDefault()
+        post(route('save-permission', { lang }), {
             onSuccess: () => {
                 handleClose()
-            }
+            },
         })
     }
 
     return (
         <Dialog open={open} maxWidth={'sm'}>
-            <DialogTitle>
-                Create permission
-            </DialogTitle>
+            <DialogTitle>Create permission</DialogTitle>
             <form onSubmit={onSubmit}>
                 <DialogContent>
                     <DialogContentText>
@@ -51,14 +57,23 @@ const PermissionForm = ({ onClose, permissionParentGroupId }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <LoadingButton type={'submit'} loading={processing} variant={'outlined'} color={'success'}>
+                    <LoadingButton
+                        type={'submit'}
+                        loading={processing}
+                        variant={'outlined'}
+                        color={'success'}>
                         Save
                     </LoadingButton>
-                    <Button variant={'outlined'} color={'error'} onClick={handleClose}>Cancel</Button>
+                    <Button
+                        variant={'outlined'}
+                        color={'error'}
+                        onClick={handleClose}>
+                        Cancel
+                    </Button>
                 </DialogActions>
             </form>
         </Dialog>
-    );
-};
+    )
+}
 
-export default PermissionForm;
+export default PermissionForm

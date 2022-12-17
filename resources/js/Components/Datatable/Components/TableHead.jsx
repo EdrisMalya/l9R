@@ -1,8 +1,18 @@
 import React from 'react'
 import { DATA_TABLE_ACTIONS } from '@/Components/Datatable/Reducer/DatatableReducer'
 import { Inertia } from '@inertiajs/inertia'
+import useLanguage from '@/hooks/useLanguage'
 
-const TableHead = ({ columns, showNumber, actions, data, setTableLoading }) => {
+const TableHead = ({
+    columns,
+    showNumber,
+    actions,
+    data,
+    setTableLoading,
+    lang,
+    datatableRoute,
+    translate,
+}) => {
     const sortIndicator = column => {
         if (column?.key === data.sort_by) {
             return (
@@ -49,7 +59,12 @@ const TableHead = ({ columns, showNumber, actions, data, setTableLoading }) => {
                 order_by: column.key,
                 direction: data.sort_direction === 'asc' ? 'desc' : 'asc',
             }
-            Inertia.get(route(route().current()), param)
+            Inertia.get(
+                datatableRoute === null
+                    ? route(route().current(), { lang })
+                    : datatableRoute,
+                param,
+            )
         }
     }
 
@@ -58,7 +73,9 @@ const TableHead = ({ columns, showNumber, actions, data, setTableLoading }) => {
             <tr>
                 {showNumber && (
                     <th scope="col" className="py-3 px-6 font-bold">
-                        <div className="flex items-center">No#</div>
+                        <div className="flex items-center">
+                            {translate('No#')}
+                        </div>
                     </th>
                 )}
                 {(columns ?? [])?.map((column, index) => (
@@ -70,14 +87,16 @@ const TableHead = ({ columns, showNumber, actions, data, setTableLoading }) => {
                             column?.sort && 'cursor-pointer'
                         }`}>
                         <div className="flex items-center">
-                            {column?.name}
+                            {translate(column?.name)}
                             {column?.sort && sortIndicator(column)}
                         </div>
                     </th>
                 ))}
                 {actions && (
                     <th scope="col" className="py-3 px-6 font-bold">
-                        <div className="flex items-center">Actions</div>
+                        <div className="flex items-center">
+                            {translate('Actions')}
+                        </div>
                     </th>
                 )}
             </tr>

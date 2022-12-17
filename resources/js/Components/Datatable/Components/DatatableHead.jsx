@@ -12,7 +12,14 @@ import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { DATA_TABLE_ACTIONS } from '@/Components/Datatable/Reducer/DatatableReducer'
 import { Inertia } from '@inertiajs/inertia'
 
-const DatatableHead = ({ data, dispatch, setTableLoading }) => {
+const DatatableHead = ({
+    data,
+    dispatch,
+    setTableLoading,
+    lang,
+    datatableRoute,
+    translate,
+}) => {
     const handleSearch = () => {
         if (data.search) {
             setTableLoading(true)
@@ -21,7 +28,12 @@ const DatatableHead = ({ data, dispatch, setTableLoading }) => {
                 page: 1,
                 search: data.search,
             }
-            Inertia.get(route(route().current()), param)
+            Inertia.get(
+                datatableRoute === null
+                    ? route(route().current(), { lang })
+                    : datatableRoute,
+                param,
+            )
         }
     }
 
@@ -37,7 +49,12 @@ const DatatableHead = ({ data, dispatch, setTableLoading }) => {
             ...route().params,
             search: null,
         }
-        Inertia.get(route(route().current()), param)
+        Inertia.get(
+            datatableRoute === null
+                ? route(route().current(), { lang })
+                : datatableRoute,
+            param,
+        )
     }
 
     const handleInputChange = e => {
@@ -69,13 +86,18 @@ const DatatableHead = ({ data, dispatch, setTableLoading }) => {
             page: 1,
             limit: pageNumber,
         }
-        Inertia.get(route(route().current()), param)
+        Inertia.get(
+            datatableRoute === null
+                ? route(route().current(), { lang })
+                : datatableRoute,
+            param,
+        )
     }
 
     return (
         <div className={'flex items-center justify-between'}>
             <FormControl size={'small'}>
-                <InputLabel>Search ...</InputLabel>
+                <InputLabel>{translate('Search')} ...</InputLabel>
                 <OutlinedInput
                     size={'small'}
                     onKeyDown={handleEnterButton}
@@ -101,7 +123,7 @@ const DatatableHead = ({ data, dispatch, setTableLoading }) => {
                 }}
                 size={'small'}>
                 <InputLabel id="demo-simple-select-label">
-                    Number of record
+                    {translate('Number of record')}
                 </InputLabel>
                 <Select
                     onChange={handlePageNumberChange}

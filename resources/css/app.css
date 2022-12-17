@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    .rtl{
+        direction: rtl!important;
+        text-align: right!important;
+    }
+}
+
+
 body{
     @apply dark:!bg-gray-900
 }
@@ -10,4 +18,32 @@ body{
 }
 .swal-title{
     @apply dark:!text-white
+}
+.MuiInputBase-input{
+    @apply !outline-0 !ring-0
+}
+.rtl{
+    @apply !rtl !text-right
+}
+.btn {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    /* Style the button text with a mix of a sans-serif and cursive font */
+    font-family: "Inter", sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+
+    /* Add some padding and a hover effect */
+    padding: 0.75em 1.5em;
+    transition: all 0.15s ease;
+
+}
+.btn:hover {
+    /* Scale up the button and add a subtle text shadow on hover */
+    background: #667eea;
+    color: white;
 }

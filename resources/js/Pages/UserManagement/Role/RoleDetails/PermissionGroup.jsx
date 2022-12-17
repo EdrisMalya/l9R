@@ -8,10 +8,11 @@ const PermissionGroup = ({
     groups,
     assignedPermissions,
     assignPermission,
+    translate,
 }) => {
     return (
         <Collapsable
-            title={item?.name}
+            title={translate(item?.name)}
             className={'border dark:border-gray-700'}>
             {permissions?.length > 0 && (
                 <div>
@@ -19,7 +20,7 @@ const PermissionGroup = ({
                         className={
                             'text-gray-300 text-xs bg-gray-700 inline-block rounded-lg p-1 mb-2'
                         }>
-                        Permissions
+                        {translate('Permissions')}
                     </p>
                     <div className={'pl-3'}>
                         {permissions?.map(permission => (
@@ -31,6 +32,7 @@ const PermissionGroup = ({
                                 <FormControlLabel
                                     control={
                                         <Checkbox
+                                            className={'rtl:mr-3'}
                                             onClick={() =>
                                                 assignPermission(permission?.id)
                                             }
@@ -40,7 +42,7 @@ const PermissionGroup = ({
                                             size={'small'}
                                         />
                                     }
-                                    label={permission?.name}
+                                    label={translate(permission?.name)}
                                 />
                             </span>
                         ))}
@@ -52,7 +54,7 @@ const PermissionGroup = ({
                     className={
                         'text-gray-300 text-xs bg-gray-700 inline-block rounded-lg p-1 my-2'
                     }>
-                    Groups
+                    {translate('Groups')}
                 </p>
             )}
             <div className={'ml-4'}>
@@ -64,11 +66,14 @@ const PermissionGroup = ({
                         item={group}
                         assignedPermissions={assignedPermissions}
                         assignPermission={assignPermission}
+                        translate={translate}
                     />
                 ))}
             </div>
             {groups?.length < 1 && item?.permissions.length < 1 && (
-                <p className={'text-center text-red-500'}>No record found</p>
+                <p className={'text-center text-red-500'}>
+                    {translate('No record found')}
+                </p>
             )}
         </Collapsable>
     )

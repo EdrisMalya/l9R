@@ -1,7 +1,10 @@
 import React from 'react'
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
+import swal from 'sweetalert'
+import { useForm } from '@inertiajs/inertia-react'
+import ProtectedComponent from '@/Components/ProtectedComponent'
 
 const TableBody = ({
     showNumber,
@@ -10,6 +13,16 @@ const TableBody = ({
     editAction,
     deleteAction,
     data,
+    setTableLoading,
+    handleEditAction,
+    deleteRole,
+    editRole,
+    otherActions,
+    datatableRoute,
+    objectName,
+    lang,
+    deleteRoute,
+    translate,
 }) => {
     let counter = 1
     const resolve = (path, obj) => {
@@ -17,7 +30,6 @@ const TableBody = ({
             return prev ? prev[curr] : null
         }, obj || self)
     }
-
     const tdDataBuilder = (column, item) => {
         let data_type =
             typeof column?.data_type === 'undefined'
@@ -31,8 +43,49 @@ const TableBody = ({
                     return dayjs(resolve(column.key, item)).format(
                         column.format,
                     )
+                case 'boolean':
+                    return resolve(column.key, item) ? 'Active' : 'Inactive'
             }
         }
+    }
+
+    const { delete: destroy } = useForm()
+
+    const handleDeleteAction = id => {
+        swal({
+            icon: 'warning',
+            title: translate('Are you sure you want to delete'),
+            buttons: true,
+        }).then(res => {
+            if (res) {
+                let routes = route().t.routes
+                setTableLoading(true)
+                let route_uri =
+                    routes[
+                        route().current().replace('index', 'destroy')
+                    ].uri?.split('/')
+                let objName = route_uri[route_uri.length - 1]
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                let route_param = {
+                    [objectName !== null ? objectName : objName]: id,
+                    lang,
+                }
+                destroy(
+                    route(
+                        deleteRoute
+                            ? deleteRoute
+                            : route().current().replace('index', 'destroy'),
+                        route_param,
+                    ),
+                    {
+                        onSuccess: () => {
+                            setTableLoading(false)
+                        },
+                    },
+                )
+            }
+        })
     }
 
     return (
@@ -42,7 +95,7 @@ const TableBody = ({
                     <td
                         className={'text-center text-red-500 py-12'}
                         colSpan={columns?.length + 2}>
-                        No record found
+                        {translate('No record found')}
                     </td>
                 </tr>
             ) : (
@@ -58,24 +111,50 @@ const TableBody = ({
                             </th>
                         )}
                         {columns?.map(column => (
-                            <td className="py-2 px-6 text-xs">
+                            <td key={column?.key} className="py-2 px-6 text-xs">
                                 {tdDataBuilder(column, item)}
                             </td>
                         ))}
                         {actions && (
                             <td className="py-2 px-6 text-xs">
                                 {editAction && (
-                                    <IconButton
-                                        color={'warning'}
-                                        size={'small'}>
-                                        <PencilIcon className={'h-3'} />
-                                    </IconButton>
+                                    <ProtectedComponent role={editRole}>
+                                        <IconButton
+                                            onClick={() =>
+                                                handleEditAction(item)
+                                            }
+                                            color={'warning'}
+                                            size={'small'}>
+                                            <PencilIcon className={'h-3'} />
+                                        </IconButton>
+                                    </ProtectedComponent>
                                 )}
                                 {deleteAction && (
-                                    <IconButton color={'error'} size={'small'}>
-                                        <TrashIcon className={'h-3'} />
-                                    </IconButton>
+                                    <ProtectedComponent role={deleteRole}>
+                                        <IconButton
+                                            onClick={() =>
+                                                handleDeleteAction(item?.id)
+                                            }
+                                            color={'error'}
+                                            size={'small'}>
+                                            <TrashIcon className={'h-3'} />
+                                        </IconButton>
+                                    </ProtectedComponent>
                                 )}
+                                {(otherActions ?? [])?.map((action, index) => (
+                                    <ProtectedComponent
+                                        key={index}
+                                        role={action?.role}>
+                                        <Tooltip title={action?.tooltip}>
+                                            <IconButton
+                                                onClick={() =>
+                                                    action?.handleClick(item)
+                                                }>
+                                                {action?.icon}
+                                            </IconButton>
+                                        </Tooltip>
+                                    </ProtectedComponent>
+                                ))}
                             </td>
                         )}
                     </tr>

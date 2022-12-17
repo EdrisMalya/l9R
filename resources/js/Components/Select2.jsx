@@ -10,6 +10,7 @@ import {
     TextField,
 } from '@mui/material'
 import FormGroup from '@mui/material/FormGroup'
+import useLanguage from '@/hooks/useLanguage'
 
 const Select2 = ({
     placeholder,
@@ -45,6 +46,8 @@ const Select2 = ({
     const [selectAll, setSelectAll] = React.useState(false)
     const [allOptions, setAllOptions] = React.useState(false)
 
+    const { translate } = useLanguage()
+
     const populateOptions = () => {
         if (data) {
             let ignoreOptions = []
@@ -55,7 +58,9 @@ const Select2 = ({
             }
             let optionArray = data?.map(item => {
                 return {
-                    label: returnIsArray ? item : resolve(selectLabel, item),
+                    label: returnIsArray
+                        ? translate(item)
+                        : translate(resolve(selectLabel, item)),
                     value: returnIsArray ? item : resolve(selectValue, item),
                     image: resolve(selectedImage, item),
                     otherOptions:

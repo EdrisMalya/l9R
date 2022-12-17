@@ -17,7 +17,7 @@ class DatatableBuilder
         $search_columns = $this->search_columns;
         $limit = 10;
         $order_by = 'id';
-        $order_direction = 'asc';
+        $order_direction = 'desc';
         if($this->request->has('search')){
             $this->query = $this->query->where(function($whereCondition) use($search_columns) {
                 $whereCondition->where($search_columns[0], 'LIKE', '%'.$this->request->get('search').'%');

@@ -1,13 +1,6 @@
 import React from 'react'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
-import { userManagementLinks } from '@/Pages/UserManagement/UserManagementIndex'
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Button,
-    IconButton,
-} from '@mui/material'
+import { Button } from '@mui/material'
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid'
 import PermissionGroupForm from '@/Pages/UserManagement/Permissions/PermissionGroupForm'
 import swal from 'sweetalert'
@@ -16,8 +9,10 @@ import { fullPageLoading } from '@/atoms/fullPageLoading'
 import { useForm } from '@inertiajs/inertia-react'
 import PermissionGroups from '@/Pages/UserManagement/Permissions/PermissionGroups'
 import PermissionForm from '@/Pages/UserManagement/Permissions/PermissionForm'
+import UserManagementLinks from '@/Pages/UserManagement/UserManagementLinks'
+import useLanguage from '@/hooks/useLanguage'
 
-const PermissionIndex = ({ auth, active, permissions }) => {
+const PermissionIndex = ({ auth, active, permissions, lang }) => {
     const [groupForm, setGroupForm] = React.useState(false)
     const [permissionForm, setPermissionForm] = React.useState(false)
     const [groupId, setGroupId] = React.useState(0)
@@ -26,22 +21,29 @@ const PermissionIndex = ({ auth, active, permissions }) => {
     const setPageLoading = useRecoilState(fullPageLoading)
     const { delete: deleteAction } = useForm()
 
+    const { translate } = useLanguage()
+
     const onDelete = id => {
         swal({
             icon: 'warning',
-            title: 'Are you sure you want to delete this user group?',
+            title: translate(
+                'Are you sure you want to delete this user group?',
+            ),
             buttons: true,
         }).then(res => {
             if (res) {
                 setPageLoading[1](true)
-                deleteAction(route('permissions.destroy', { permission: id }), {
-                    onSuccess: () => {
-                        setPageLoading[1](false)
+                deleteAction(
+                    route('permissions.destroy', { permission: id, lang }),
+                    {
+                        onSuccess: () => {
+                            setPageLoading[1](false)
+                        },
+                        onError: () => {
+                            setPageLoading[1](false)
+                        },
                     },
-                    onError: () => {
-                        setPageLoading[1](false)
-                    },
-                })
+                )
             }
         })
     }
@@ -66,7 +68,10 @@ const PermissionIndex = ({ auth, active, permissions }) => {
             if (res) {
                 setPageLoading[1](true)
                 deleteAction(
-                    route('delete-permission', { permission: permissionId }),
+                    route('delete-permission', {
+                        permission: permissionId,
+                        lang,
+                    }),
                     {
                         onSuccess: () => {
                             setPageLoading[1](false)
@@ -81,7 +86,7 @@ const PermissionIndex = ({ auth, active, permissions }) => {
         <Authenticated
             auth={auth}
             active={'user_management'}
-            navBarOptions={() => userManagementLinks(active)}
+            navBarOptions={<UserManagementLinks active={active} />}
             title={'Permission'}>
             <div className={'flex items-center justify-between'}>
                 <h2 className={'text-2xl'}>List of permissions</h2>
@@ -125,6 +130,7 @@ const PermissionIndex = ({ auth, active, permissions }) => {
                 <PermissionGroupForm
                     groupId={groupId}
                     groupName={groupName}
+                    lang={lang}
                     permissionParentGroupId={parentGroupId}
                     onClose={e => {
                         setGroupForm(e)
@@ -143,6 +149,7 @@ const PermissionIndex = ({ auth, active, permissions }) => {
                         setGroupName(null)
                     }}
                     permissionParentGroupId={groupId}
+                    lang={lang}
                     deletePermission={deletePermission}
                 />
             )}

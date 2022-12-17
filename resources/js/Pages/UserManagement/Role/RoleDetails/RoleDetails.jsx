@@ -1,11 +1,13 @@
 import React from 'react'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
-import { userManagementLinks } from '@/Pages/UserManagement/UserManagementIndex'
 import { TextField } from '@mui/material'
 import PermissionGroup from '@/Pages/UserManagement/Role/RoleDetails/PermissionGroup'
-import { useForm } from '@inertiajs/inertia-react'
+import { useForm, usePage } from '@inertiajs/inertia-react'
 import { LoadingButton } from '@mui/lab'
 import dayjs from 'dayjs'
+import ProtectedComponent from '@/Components/ProtectedComponent'
+import UserManagementLinks from '@/Pages/UserManagement/UserManagementLinks'
+import useLanguage from '@/hooks/useLanguage'
 
 const RoleDetails = ({
     auth,
@@ -16,11 +18,13 @@ const RoleDetails = ({
 }) => {
     const [assignedPermissions, setAssignedPermissions] =
         React.useState(assigned_permissions)
-
+    const { lang } = usePage().props
     const { put, processing, setData, errors, data } = useForm({
         assigned_permissions: assignedPermissions,
         name: role.name,
     })
+
+    const { translate } = useLanguage()
 
     const assignPermission = index => {
         let id = parseInt(index)
@@ -41,25 +45,26 @@ const RoleDetails = ({
 
     const handleSubmit = event => {
         event.preventDefault()
-        put(route('role.update', { role: role?.id }))
+        put(route('role.update', { role: role?.id, lang }))
     }
 
     return (
         <Authenticated
             auth={auth}
-            title={'Role details'}
-            active={active}
-            navBarOptions={() => userManagementLinks(active)}>
+            title={translate('Role details')}
+            active={'user_management'}
+            navBarOptions={<UserManagementLinks active={active} />}>
             <h2 className={'text-xl py-4'}>Role details</h2>
             <div className={'mb-4 text-xs'}>
                 <p>
-                    Created by: {role?.created_by?.name} at{' '}
+                    {translate('Created by')}: {role?.created_by?.name} at{' '}
                     {dayjs(role?.created_at).format('YYYY/MM/DD h:m A')}
                 </p>
                 <p>
                     {role?.updated_by && (
                         <>
-                            Updated by: {role?.updated_by?.name} at{' '}
+                            {translate('Updated by')}: {role?.updated_by?.name}{' '}
+                            at{' '}
                             {dayjs(role?.updated_at).format('YYYY/MM/DD h:m A')}
                         </>
                     )}
@@ -77,7 +82,7 @@ const RoleDetails = ({
                             size={'small'}
                         />
                     </div>
-                    <div> - Role all assigned permissions</div>
+                    <div> - {translate('Role all assigned permissions')}</div>
                 </div>
                 <div className={'mt-4'}>
                     {permissions?.map(item => (
@@ -88,17 +93,20 @@ const RoleDetails = ({
                             item={item}
                             assignedPermissions={assignedPermissions}
                             assignPermission={assignPermission}
+                            translate={translate}
                         />
                     ))}
                 </div>
-                <div className={'mt-4'}>
-                    <LoadingButton
-                        type={'submit'}
-                        variant={'outlined'}
-                        loading={processing}>
-                        Save
-                    </LoadingButton>
-                </div>
+                <ProtectedComponent role={'roles-edit-role'}>
+                    <div className={'mt-4'}>
+                        <LoadingButton
+                            type={'submit'}
+                            variant={'outlined'}
+                            loading={processing}>
+                            {translate('Save')}
+                        </LoadingButton>
+                    </div>
+                </ProtectedComponent>
             </form>
         </Authenticated>
     )
