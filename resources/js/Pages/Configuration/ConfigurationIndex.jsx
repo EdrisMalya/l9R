@@ -2,7 +2,6 @@ import React from 'react'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
 import ConfigurationPageLinks from '@/Pages/Configuration/ConfigurationPageLinks'
 import useLanguage from '@/hooks/useLanguage'
-import TextEditor from '@/Components/Editor'
 
 const ConfigurationIndex = ({ lang }) => {
     const { translate } = useLanguage()

@@ -51,7 +51,7 @@ class UserController extends Controller
             case 'user_login_log':
                 $this->allowed('users-view-user-login-log');
                 $login_logs = LoginLog::query()->where('email', $user->email);
-                $datatable = new DatatableBuilder($login_logs, $request);
+                $datatable = new DatatableBuilder($login_logs, $request, ['ip_address', 'email']);
                 $array['login_logs'] = $datatable->build();
                 break;
             default:

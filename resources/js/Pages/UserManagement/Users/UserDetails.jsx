@@ -61,12 +61,21 @@ const UserDetails = ({ user, active, active_tab, lang, logs, login_logs }) => {
                         <UserProfile user={user} translate={translate} />
                     </TabPanel>
                     <TabPanel value={'user_log_activities'}>
-                        <UserActivityLog logs={logs} translate={translate} />
+                        <UserActivityLog
+                            logs={logs}
+                            translate={translate}
+                            user={user}
+                            active_tab={active_tab}
+                            lang={lang}
+                        />
                     </TabPanel>
                     <TabPanel value={'user_login_log'}>
                         <UserLoginLog
                             translate={translate}
                             login_logs={login_logs}
+                            user={user}
+                            active_tab={active_tab}
+                            lang={lang}
                         />
                     </TabPanel>
                 </TabContext>

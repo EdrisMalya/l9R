@@ -3,7 +3,7 @@ import Datatable from '@/Components/Datatable/Datatable'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import ActivityDetails from '@/Pages/UserManagement/Users/Components/ActivityDetails'
 
-const UserActivityLog = ({ logs, translate }) => {
+const UserActivityLog = ({ logs, translate, user, active_tab, lang }) => {
     const [activity, setActivity] = React.useState(null)
     const [activityDetails, setActivityDetails] = React.useState(null)
 
@@ -27,7 +27,13 @@ const UserActivityLog = ({ logs, translate }) => {
                     ]}
                     deleteRoute={'destroy.activity'}
                     objectName={'activity'}
+                    datatableRoute={route('users.show', {
+                        user: user.id,
+                        lang,
+                        active_tab,
+                    })}
                     deleteRole={'log-activity-delete-log'}
+                    editAction={false}
                     columns={[
                         {
                             name: 'Effected module',
