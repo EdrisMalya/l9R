@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 
 /*
@@ -24,7 +25,7 @@ Route::get('/', function () {
 Route::group(['prefix'=>'{lang}'], function(){
     Route::match(['POST','GET'], 'change/password', [\App\Http\Controllers\UserManagement\UserController::class, 'change_password'])->name('change.password')->middleware(['auth']);
 
-    Route::middleware(['auth', 'check_user', 'lang'])->group(function (){
+    Route::middleware(['auth', 'check_user', 'lang' ])->group(function (){
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
@@ -42,6 +43,7 @@ Route::group(['prefix'=>'{lang}'], function(){
             })->name('user-management.index');
 
             Route::resource('users', \App\Http\Controllers\UserManagement\UserController::class);
+            Route::delete('delete/log/activity/{activity}', [\App\Http\Controllers\UserManagement\UserController::class, 'deleteLogActivity'])->name('destroy.activity');
 
             Route::post('save/permission', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'savePermission'])->name('save-permission');
             Route::delete('delete/permission/{permission}', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'deletePermission'])->name('delete-permission');
@@ -49,12 +51,13 @@ Route::group(['prefix'=>'{lang}'], function(){
 
             Route::resource('role', \App\Http\Controllers\UserManagement\RoleController::class);
             Route::match(['POST', 'PUT', 'DELETE'],'save/role/group', [\App\Http\Controllers\UserManagement\RoleController::class, 'saveRoleGroup'])->name('role.group.save');
+            Route::resource('login_log', \App\Http\Controllers\UserManagement\LoginLogController::class);
         });
 
         /**************************************** Configuration routes ***********************************************/
 
         Route::group(['prefix'=>'configuration'], function(){
-            Route::get('configuration', function(){
+            Route::get('/', function(){
                 User::isAllowed('configuration-access');
                 return Inertia::render('Configuration/ConfigurationIndex');
             })->name('configuration.index');
@@ -62,6 +65,7 @@ Route::group(['prefix'=>'{lang}'], function(){
             Route::resource('language', \App\Http\Controllers\Configurations\LanguageController::class);
             Route::get('get/language/words', [\App\Http\Controllers\Configurations\LanguageController::class, 'returnAllWords']);
             Route::resource('language/dictionary', \App\Http\Controllers\Configurations\LanguageDictionaryController::class);
+            Route::get('backup', [\App\Http\Controllers\Configurations\BackupController::class, 'index'])->name('backup.index');
         });
     });
 

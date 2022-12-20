@@ -7,8 +7,9 @@ import UserForm from '@/Pages/UserManagement/Users/UserForm'
 import ProtectedComponent from '@/Components/ProtectedComponent'
 import UserManagementLinks from '@/Pages/UserManagement/UserManagementLinks'
 import useLanguage from '@/hooks/useLanguage'
+import { Inertia } from '@inertiajs/inertia'
 
-const UserIndex = ({ auth, active, users, roles, dir }) => {
+const UserIndex = ({ auth, active, users, roles, dir, lang }) => {
     const [openForm, setOpenForm] = React.useState(false)
     const [user, setUser] = React.useState(null)
 
@@ -41,9 +42,15 @@ const UserIndex = ({ auth, active, users, roles, dir }) => {
                         {
                             icon: <UserIcon className={'h-3 text-blue-500'} />,
                             role: 'users-view-profile',
-                            tooltip: translate('This is edris'),
+                            tooltip: translate('User details'),
                             handleClick: item => {
-                                console.log(item)
+                                Inertia.get(
+                                    route('users.show', {
+                                        user: item.id,
+                                        lang,
+                                        active_tab: 'user_profile',
+                                    }),
+                                )
                             },
                         },
                     ]}

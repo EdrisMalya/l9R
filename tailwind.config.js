@@ -1,4 +1,4 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -17,5 +17,9 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar')],
-};
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('tailwind-scrollbar'),
+        require('@tailwindcss/typography'),
+    ],
+}

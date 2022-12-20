@@ -30,7 +30,7 @@ class PasswordResetLinkController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store($lang, Request $request)
     {
         $request->validate([
             'email' => 'required|email',

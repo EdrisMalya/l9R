@@ -6,11 +6,13 @@ import InputLabel from '@/Components/InputLabel'
 import TextInput from '@/Components/TextInput'
 import { Head, Link, useForm } from '@inertiajs/inertia-react'
 import { LoadingButton } from '@mui/lab'
-import { Alert, Snackbar } from '@mui/material'
+import { Alert, IconButton, Snackbar } from '@mui/material'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 export default function Login({ status, canResetPassword, flash, lang }) {
     const [openMessageBox, setOpenMessageBox] = useState(false)
     const [messageType, setMessageType] = useState('success')
+    const [showPassword, setShowPassword] = useState(false)
 
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
@@ -75,19 +77,34 @@ export default function Login({ status, canResetPassword, flash, lang }) {
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel forInput="password" value="Password" />
-
-                    <TextInput
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        handleChange={onHandleChange}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
+                <div className="mt-4 flex items-center">
+                    <div className={'flex-grow '}>
+                        <InputLabel forInput="password" value="Password" />
+                        <TextInput
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            value={data.password}
+                            className="mt-1 block w-full"
+                            autoComplete="current-password"
+                            handleChange={onHandleChange}
+                        />
+                        <InputError
+                            message={errors.password}
+                            className="mt-2"
+                        />
+                    </div>
+                    <div className={'mt-6'}>
+                        <IconButton
+                            onClick={() => {
+                                setShowPassword(prevState => !prevState)
+                            }}>
+                            {showPassword ? (
+                                <EyeIcon className={'h-5'} />
+                            ) : (
+                                <EyeSlashIcon className={'h-5'} />
+                            )}
+                        </IconButton>
+                    </div>
                 </div>
 
                 <div className="block mt-4">
@@ -103,7 +120,7 @@ export default function Login({ status, canResetPassword, flash, lang }) {
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-between mt-4">
                     {canResetPassword && (
                         <Link
                             href={route('password.request', { lang })}

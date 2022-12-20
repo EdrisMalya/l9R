@@ -3,7 +3,7 @@ import Authenticated from '@/Layouts/AuthenticatedLayout'
 import UserManagementLinks from '@/Pages/UserManagement/UserManagementLinks'
 import useLanguage from '@/hooks/useLanguage'
 
-const UserManagementIndex = ({ active, lang }) => {
+const UserManagementIndex = () => {
     const { translate } = useLanguage()
     return (
         <Authenticated

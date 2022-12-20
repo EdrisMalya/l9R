@@ -41,7 +41,7 @@ export default function Authenticated({
                         `${direction === 'ltr' ? '!pl-[250px]' : '!pr-[250px]'}`
                     } overflow-hidden`}>
                     <Nav direction={direction} navBarOptions={navBarOptions} />
-                    <main className={`p-4 mt-20`}>{children}</main>
+                    <main className={`p-4 min-h-screen pt-24`}>{children}</main>
                 </div>
             </div>
             <Snackbar

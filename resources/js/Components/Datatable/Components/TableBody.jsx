@@ -18,7 +18,6 @@ const TableBody = ({
     deleteRole,
     editRole,
     otherActions,
-    datatableRoute,
     objectName,
     lang,
     deleteRoute,
@@ -38,13 +37,28 @@ const TableBody = ({
         if (typeof data_type !== 'undefined') {
             switch (data_type) {
                 case 'string':
+                    if (typeof column?.translate !== 'undefined') {
+                        if (column?.translate) {
+                            return translate(resolve(column.key, item))
+                        } else {
+                            return resolve(column.key, item)
+                        }
+                    }
                     return resolve(column.key, item)
                 case 'date':
                     return dayjs(resolve(column.key, item)).format(
                         column.format,
                     )
                 case 'boolean':
-                    return resolve(column.key, item) ? 'Active' : 'Inactive'
+                    let trueValue =
+                        typeof column?.true_value === 'undefined'
+                            ? 'Active'
+                            : column?.true_value
+                    let falseValue =
+                        typeof column?.false_value === 'undefined'
+                            ? 'Inactive'
+                            : column?.false_value
+                    return resolve(column.key, item) ? trueValue : falseValue
             }
         }
     }
@@ -147,6 +161,8 @@ const TableBody = ({
                                         role={action?.role}>
                                         <Tooltip title={action?.tooltip}>
                                             <IconButton
+                                                className={action?.className}
+                                                size={'small'}
                                                 onClick={() =>
                                                     action?.handleClick(item)
                                                 }>
