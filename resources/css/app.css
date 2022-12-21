@@ -65,7 +65,7 @@ body{
 }
 
 .quill *{
-    @apply dark:!text-white
+    @apply dark:text-white
 }
 .prose {
     @apply !max-w-[100%];
