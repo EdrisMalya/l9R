@@ -1,8 +1,8 @@
 import React from 'react'
 import ProtectedComponent from '@/Components/ProtectedComponent'
 import { Link, usePage } from '@inertiajs/inertia-react'
-import { Button } from '@mui/material'
-import { UsersIcon } from '@heroicons/react/24/outline'
+import { Button, ListItemIcon } from '@mui/material'
+import { ListBulletIcon, UsersIcon } from '@heroicons/react/24/outline'
 import { LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import useLanguage from '@/hooks/useLanguage'
 
@@ -18,6 +18,8 @@ const UserManagementLinks = ({ active }) => {
                 return 'permission'
             case 'login_logs':
                 return 'login_logs'
+            case 'log_activities':
+                return 'log_activities'
         }
     }
 
@@ -73,6 +75,19 @@ const UserManagementLinks = ({ active }) => {
                                 : 'outlined'
                         }>
                         {translate('Login log')}
+                    </Button>
+                </Link>
+            </ProtectedComponent>
+            <ProtectedComponent role={'log-activity-access'}>
+                <Link href={route('log.activities.index', { lang })}>
+                    <Button
+                        startIcon={<ListBulletIcon className={'h-4'} />}
+                        variant={
+                            activeLink() === 'log_activities'
+                                ? 'contained'
+                                : 'outlined'
+                        }>
+                        {translate('Log activities')}
                     </Button>
                 </Link>
             </ProtectedComponent>

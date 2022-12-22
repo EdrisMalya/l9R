@@ -2,6 +2,7 @@ import React from 'react'
 import Datatable from '@/Components/Datatable/Datatable'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import ActivityDetails from '@/Pages/UserManagement/Users/Components/ActivityDetails'
+import Datepicker from '@/Components/Datepicker'
 
 const UserActivityLog = ({ logs, translate, user, active_tab, lang }) => {
     const [activity, setActivity] = React.useState(null)
@@ -23,6 +24,15 @@ const UserActivityLog = ({ logs, translate, user, active_tab, lang }) => {
                                 setActivity(data)
                                 setActivityDetails(true)
                             },
+                        },
+                    ]}
+                    datatableFilters={[
+                        {
+                            element: (
+                                <Datepicker
+                                    label={translate('Performed date')}
+                                />
+                            ),
                         },
                     ]}
                     deleteRoute={'destroy.activity'}

@@ -13,10 +13,14 @@ class LoginLogController extends Controller
     public function index($lang, Request $request){
         $this->allowed('login-log-access');
         $logs = LoginLog::query();
+        if($request->has('date')){
+            $logs = $logs->whereDate('created_at', $request->get('date'));
+        }
         $datatable = new DatatableBuilder($logs, $request, ['email', 'ip_address']);
         return Inertia::render('UserManagement/LoginLogIndex', [
             'active' => 'login_logs',
-            'logs' => $datatable->build()
+            'logs' => $datatable->build(),
+            'filter_date' => $request->get('date')
         ]);
     }
 

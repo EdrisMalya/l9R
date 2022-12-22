@@ -42,16 +42,30 @@ Route::group(['prefix'=>'{lang}'], function(){
                 return Inertia::render('UserManagement/UserManagementIndex');
             })->name('user-management.index');
 
+            /********************************** Users routes ********************************/
             Route::resource('users', \App\Http\Controllers\UserManagement\UserController::class);
-            Route::delete('delete/log/activity/{activity}', [\App\Http\Controllers\UserManagement\UserController::class, 'deleteLogActivity'])->name('destroy.activity');
 
-            Route::post('save/permission', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'savePermission'])->name('save-permission');
-            Route::delete('delete/permission/{permission}', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'deletePermission'])->name('delete-permission');
-            Route::resource('permissions', \App\Http\Controllers\UserManagement\PermissionsController::class);
-
+            /*************************************** Role routes *****************************************/
             Route::resource('role', \App\Http\Controllers\UserManagement\RoleController::class);
             Route::match(['POST', 'PUT', 'DELETE'],'save/role/group', [\App\Http\Controllers\UserManagement\RoleController::class, 'saveRoleGroup'])->name('role.group.save');
+
+
+            /****************************************** Login log ***************************************/
             Route::resource('login_log', \App\Http\Controllers\UserManagement\LoginLogController::class);
+
+
+            /******************************************* Log activities ************************************/
+            Route::get('log/activities', [\App\Http\Controllers\UserManagement\LogActivityController::class, 'index'])->name('log.activities.index');
+            Route::delete('delete/log/activity/{activity}', [\App\Http\Controllers\UserManagement\LogActivityController::class, 'deleteLogActivity'])->name('destroy.activity');
+
+
+
+            /*************************************** Permission routes ************************************/
+            Route::resource('permissions', \App\Http\Controllers\UserManagement\PermissionsController::class);
+            Route::post('save/permission', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'savePermission'])->name('save-permission');
+            Route::delete('delete/permission/{permission}', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'deletePermission'])->name('delete-permission');
+
+
         });
 
         /**************************************** Configuration routes ***********************************************/
@@ -62,9 +76,12 @@ Route::group(['prefix'=>'{lang}'], function(){
                 return Inertia::render('Configuration/ConfigurationIndex');
             })->name('configuration.index');
 
+            /************************************* Language routes ********************************************/
             Route::resource('language', \App\Http\Controllers\Configurations\LanguageController::class);
             Route::get('get/language/words', [\App\Http\Controllers\Configurations\LanguageController::class, 'returnAllWords']);
             Route::resource('language/dictionary', \App\Http\Controllers\Configurations\LanguageDictionaryController::class);
+
+            /**************************************** backup routes ********************************************/
             Route::get('backup', [\App\Http\Controllers\Configurations\BackupController::class, 'index'])->name('backup.index');
         });
     });

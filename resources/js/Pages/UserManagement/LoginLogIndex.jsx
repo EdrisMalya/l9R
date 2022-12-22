@@ -10,8 +10,10 @@ import swal from 'sweetalert'
 import { useRecoilState } from 'recoil'
 import { fullPageLoading } from '@/atoms/fullPageLoading'
 import { useForm } from '@inertiajs/inertia-react'
+import Datepicker from '@/Components/Datepicker'
+import { Inertia } from '@inertiajs/inertia'
 
-const LoginLogIndex = ({ active, logs, lang }) => {
+const LoginLogIndex = ({ active, logs, lang, filter_date }) => {
     const { translate } = useLanguage()
     const setLoading = useRecoilState(fullPageLoading)
 
@@ -58,6 +60,24 @@ const LoginLogIndex = ({ active, logs, lang }) => {
                 <Datatable
                     data={logs}
                     showNumber={true}
+                    datatableFilters={[
+                        {
+                            element: (
+                                <Datepicker
+                                    label={'Performed date'}
+                                    value={filter_date}
+                                    onChange={date => {
+                                        Inertia.get(
+                                            route(route().current(), {
+                                                ...route().params,
+                                                date: date,
+                                            }),
+                                        )
+                                    }}
+                                />
+                            ),
+                        },
+                    ]}
                     actions={false}
                     columns={[
                         {

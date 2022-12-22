@@ -11,6 +11,7 @@ import {
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { DATA_TABLE_ACTIONS } from '@/Components/Datatable/Reducer/DatatableReducer'
 import { Inertia } from '@inertiajs/inertia'
+import DatatableActions from '@/Components/Datatable/Components/DatatableActions'
 
 const DatatableHead = ({
     data,
@@ -19,6 +20,7 @@ const DatatableHead = ({
     lang,
     datatableRoute,
     translate,
+    datatableFilters,
 }) => {
     const handleSearch = () => {
         if (data.search) {
@@ -95,49 +97,51 @@ const DatatableHead = ({
     }
 
     return (
-        <div className={'flex items-center justify-between'}>
-            <FormControl size={'small'}>
-                <InputLabel>{translate('Search')} ...</InputLabel>
-                <OutlinedInput
-                    size={'small'}
-                    onKeyDown={handleEnterButton}
-                    onChange={handleInputChange}
-                    value={data.search}
-                    endAdornment={
-                        <InputAdornment position={'end'}>
-                            {data.search && (
-                                <IconButton onClick={handleClearButton}>
-                                    <XMarkIcon className={'h-4'} />
+        <div>
+            <div
+                className={
+                    'flex items-center justify-between flex-col md:flex-row space-x-2 space-y-3'
+                }>
+                <FormControl className={'lg:w-[300px] w-full'} size={'small'}>
+                    <InputLabel>{translate('Search')} ...</InputLabel>
+                    <OutlinedInput
+                        size={'small'}
+                        onKeyDown={handleEnterButton}
+                        onChange={handleInputChange}
+                        value={data.search}
+                        endAdornment={
+                            <InputAdornment position={'end'}>
+                                {data.search && (
+                                    <IconButton onClick={handleClearButton}>
+                                        <XMarkIcon className={'h-4'} />
+                                    </IconButton>
+                                )}
+                                <IconButton onClick={handleSearch}>
+                                    <MagnifyingGlassIcon className={'h-4'} />
                                 </IconButton>
-                            )}
-                            <IconButton onClick={handleSearch}>
-                                <MagnifyingGlassIcon className={'h-4'} />
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-            </FormControl>
-            <FormControl
-                sx={{
-                    width: '200px',
-                }}
-                size={'small'}>
-                <InputLabel id="demo-simple-select-label">
-                    {translate('Number of record')}
-                </InputLabel>
-                <Select
-                    onChange={handlePageNumberChange}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={data.limit}
-                    label="Age">
-                    <MenuItem value={10}>10</MenuItem>
-                    <MenuItem value={20}>20</MenuItem>
-                    <MenuItem value={30}>30</MenuItem>
-                    <MenuItem value={50}>50</MenuItem>
-                    <MenuItem value={100}>100</MenuItem>
-                </Select>
-            </FormControl>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+                {datatableFilters?.map(filter => filter.element)}
+                <FormControl className={'lg:w-36 w-full'} size={'small'}>
+                    <InputLabel id="demo-simple-select-label">
+                        {translate('Number of record')}
+                    </InputLabel>
+                    <Select
+                        onChange={handlePageNumberChange}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={data.limit}
+                        label="Age">
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
+                        <MenuItem value={100}>100</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
         </div>
     )
 }

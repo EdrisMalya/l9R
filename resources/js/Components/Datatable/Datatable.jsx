@@ -14,6 +14,7 @@ import { usePage } from '@inertiajs/inertia-react'
 import { useRecoilState } from 'recoil'
 import { directionAtom } from '@/atoms/directionAtom'
 import useLanguage from '@/hooks/useLanguage'
+import DatatableActions from '@/Components/Datatable/Components/DatatableActions'
 
 const Datatable = ({
     columns,
@@ -29,6 +30,7 @@ const Datatable = ({
     datatableRoute = null,
     objectName = null,
     deleteRoute,
+    datatableFilters = [],
 }) => {
     const [data, dispatch] = useReducer(DatatableReducer, DATA_TABLE_INIT_VALUE)
     const [totalPage, setTotalPage] = useState(0)
@@ -83,6 +85,7 @@ const Datatable = ({
     return (
         <div>
             <DatatableHead
+                datatableFilters={datatableFilters}
                 data={data}
                 dispatch={dispatch}
                 setTableLoading={setTableLoading}
@@ -90,7 +93,7 @@ const Datatable = ({
                 datatableRoute={datatableRoute}
                 translate={translate}
             />
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-5 dark:scrollbar-thumb-gray-900">
+            <div className="overflow-x-auto relative shadow-md sm:rounded-lg dark:scrollbar-thumb-gray-900">
                 {tableLoading && (
                     <div
                         className={
@@ -103,40 +106,43 @@ const Datatable = ({
                         />
                     </div>
                 )}
-                <table
-                    className={`w-full text-sm ${
-                        direction === 'ltr' ? 'text-left' : 'text-right'
-                    } text-gray-500 dark:text-gray-400`}>
-                    <TableHead
-                        lang={lang}
-                        data={data}
-                        showNumber={showNumber}
-                        columns={columns}
-                        actions={actions}
-                        dispatch={dispatch}
-                        setTableLoading={setTableLoading}
-                        datatableRoute={datatableRoute}
-                        translate={translate}
-                    />
-                    <TableBody
-                        handleEditAction={handleEditAction}
-                        actions={actions}
-                        showNumber={showNumber}
-                        columns={columns}
-                        editAction={editAction}
-                        deleteAction={deleteAction}
-                        data={tableData}
-                        setTableLoading={setTableLoading}
-                        deleteRole={deleteRole}
-                        editRole={editRole}
-                        otherActions={otherOptions}
-                        datatableRoute={datatableRoute}
-                        objectName={objectName}
-                        lang={lang}
-                        deleteRoute={deleteRoute}
-                        translate={translate}
-                    />
-                </table>
+                <div className={'mt-5'}>
+                    <DatatableActions columns={columns} />
+                    <table
+                        className={`w-full text-sm ${
+                            direction === 'ltr' ? 'text-left' : 'text-right'
+                        } text-gray-500 dark:text-gray-400`}>
+                        <TableHead
+                            lang={lang}
+                            data={data}
+                            showNumber={showNumber}
+                            columns={columns}
+                            actions={actions}
+                            dispatch={dispatch}
+                            setTableLoading={setTableLoading}
+                            datatableRoute={datatableRoute}
+                            translate={translate}
+                        />
+                        <TableBody
+                            handleEditAction={handleEditAction}
+                            actions={actions}
+                            showNumber={showNumber}
+                            columns={columns}
+                            editAction={editAction}
+                            deleteAction={deleteAction}
+                            data={tableData}
+                            setTableLoading={setTableLoading}
+                            deleteRole={deleteRole}
+                            editRole={editRole}
+                            otherActions={otherOptions}
+                            datatableRoute={datatableRoute}
+                            objectName={objectName}
+                            lang={lang}
+                            deleteRoute={deleteRoute}
+                            translate={translate}
+                        />
+                    </table>
+                </div>
             </div>
             <div className={'mt-4'}>
                 <div className={'flex items-center justify-between'}>

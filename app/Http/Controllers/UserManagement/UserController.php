@@ -45,7 +45,7 @@ class UserController extends Controller
             case 'user_log_activities':
                 $this->allowed('log-activity-access');
                 $logs = Activity::query()->where('causer_id', $user->id);
-                $datatable = new DatatableBuilder($logs, $request ,['description', 'subject_type', 'log_name']);
+                $datatable = new DatatableBuilder($logs, $request , ['description', 'subject_type', 'log_name']);
                 $array['logs'] = $datatable->build();
                 break;
             case 'user_login_log':
@@ -135,11 +135,5 @@ class UserController extends Controller
                 ]);
                 return back()->with(['message' => translate('Your password has been changed successfully.'), 'type'=>'success']);
         }
-    }
-
-    public function deleteLogActivity($lang, Activity $activity){
-        $this->allowed('log-activity-delete-log');
-        $activity->delete();
-        return back()->with(['message' => translate('Deleted successfully'), 'type'=>'success']);
     }
 }

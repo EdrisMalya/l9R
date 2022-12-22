@@ -52,10 +52,11 @@ const Select2 = ({
         if (data) {
             let ignoreOptions = []
             if (isMulti && selectedValue) {
-                ignoreOptions = selectedValue?.map(item => item.value)
+                ignoreOptions = selectedValue?.map(item => parseInt(item.value))
             } else {
                 ignoreOptions = [selectedValue?.value]
             }
+            console.log(options)
             let optionArray = data?.map(item => {
                 return {
                     label: returnIsArray
