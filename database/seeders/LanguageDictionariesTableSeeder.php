@@ -1100,6 +1100,24 @@ sidebar',
                 'created_at' => '2022-12-20 10:24:45',
                 'updated_at' => '2022-12-20 10:24:45',
             ),
+            120 => 
+            array (
+                'id' => 131,
+                'language_id' => 6,
+                'word' => 'User management',
+                'translate' => 'ده استفاده کونکی مدریت',
+                'created_at' => '2022-12-21 12:47:39',
+                'updated_at' => '2022-12-21 12:47:39',
+            ),
+            121 => 
+            array (
+                'id' => 132,
+                'language_id' => 6,
+                'word' => 'Configuration',
+                'translate' => 'تنظیمات',
+                'created_at' => '2022-12-21 12:47:56',
+                'updated_at' => '2022-12-21 12:48:17',
+            ),
         ));
         
         

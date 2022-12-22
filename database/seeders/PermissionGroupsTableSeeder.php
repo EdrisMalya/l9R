@@ -91,6 +91,14 @@ class PermissionGroupsTableSeeder extends Seeder
                 'created_at' => '2022-12-19 15:37:06',
                 'updated_at' => '2022-12-19 15:37:06',
             ),
+            9 => 
+            array (
+                'id' => 13,
+                'permission_group_id' => 1,
+                'name' => 'Log activity',
+                'created_at' => '2022-12-22 10:29:02',
+                'updated_at' => '2022-12-22 10:29:02',
+            ),
         ));
         
         
