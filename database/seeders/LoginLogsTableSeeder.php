@@ -189,6 +189,26 @@ class LoginLogsTableSeeder extends Seeder
                 'created_at' => '2022-12-22 10:29:52',
                 'updated_at' => '2022-12-22 10:29:52',
             ),
+            17 => 
+            array (
+                'id' => 18,
+                'email' => 'edrismalya2@gmail.com',
+                'ip_address' => '127.0.0.1',
+                'action_type' => 'login',
+                'status' => 0,
+                'created_at' => '2022-12-24 09:09:46',
+                'updated_at' => '2022-12-24 09:09:46',
+            ),
+            18 => 
+            array (
+                'id' => 19,
+                'email' => 'edris.malya@dab.gov.af',
+                'ip_address' => '127.0.0.1',
+                'action_type' => 'login',
+                'status' => 1,
+                'created_at' => '2022-12-24 09:09:53',
+                'updated_at' => '2022-12-24 09:09:53',
+            ),
         ));
         
         

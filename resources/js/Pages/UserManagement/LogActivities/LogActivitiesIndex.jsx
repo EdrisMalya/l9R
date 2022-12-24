@@ -25,99 +25,102 @@ const LogActivitiesIndex = ({
             active={'user_management'}
             title={translate('Log activities')}
             navBarOptions={<UserManagementLinks active={active} />}>
-            <Datatable
-                showNumber={true}
-                data={activities}
-                otherOptions={[
-                    {
-                        icon: <InformationCircleIcon className={'h-3'} />,
-                        tooltip: translate('Log details'),
-                        role: 'log-activity-view-log-details',
-                        className: '!text-blue-500',
-                        handleClick: data => {
-                            setActivity(data)
-                            setActivityDetails(true)
+            <h2 className={'text-xl'}>{translate('Log activities')}</h2>
+            <div className={'mt-5'}>
+                <Datatable
+                    showNumber={true}
+                    data={activities}
+                    otherOptions={[
+                        {
+                            icon: <InformationCircleIcon className={'h-3'} />,
+                            tooltip: translate('Log details'),
+                            role: 'log-activity-view-log-details',
+                            className: '!text-blue-500',
+                            handleClick: data => {
+                                setActivity(data)
+                                setActivityDetails(true)
+                            },
                         },
-                    },
-                ]}
-                datatableFilters={[
-                    {
-                        element: (
-                            <Datepicker
-                                value={filter_date}
-                                onChange={date => {
-                                    Inertia.get(
-                                        route(route().current(), {
-                                            ...route().params,
-                                            date: date,
-                                        }),
-                                    )
-                                }}
-                                label={translate('Performed date')}
-                            />
-                        ),
-                    },
-                    {
-                        element: (
-                            <Select2
-                                className={'w-[300px]'}
-                                value={filtered_users}
-                                isMulti={true}
-                                onChange={selectedUser => {
-                                    let params = route().params
-                                    Inertia.get(
-                                        route(route().current(), {
-                                            ...params,
-                                            users: selectedUser,
-                                        }),
-                                    )
-                                }}
-                                data={users}
-                                label={translate('Select users')}
-                                placeholder={translate('List of all users')}
-                                selectValue={'id'}
-                                selectLabel={'name'}
-                            />
-                        ),
-                    },
-                ]}
-                deleteRoute={'destroy.activity'}
-                objectName={'activity'}
-                deleteRole={'log-activity-delete-log'}
-                editAction={false}
-                columns={[
-                    {
-                        name: 'Performed By',
-                        key: 'causer.name',
-                        translate: true,
-                        sort: true,
-                    },
-                    {
-                        name: 'Effected module',
-                        key: 'log_name',
-                        translate: true,
-                        sort: true,
-                    },
-                    {
-                        name: 'Effected model',
-                        key: 'subject_type',
-                        sort: true,
-                    },
-                    {
-                        name: 'Event',
-                        key: 'description',
-                        sort: true,
-                        translate: true,
-                    },
-                    {
-                        name: 'Performed on',
-                        key: 'created_at',
-                        sort: true,
-                        data_type: 'date',
-                        format: 'YYYY-MM-DD hh:mm A',
-                    },
-                ]}
-            />
+                    ]}
+                    datatableFilters={[
+                        {
+                            element: (
+                                <Datepicker
+                                    value={filter_date}
+                                    onChange={date => {
+                                        Inertia.get(
+                                            route(route().current(), {
+                                                ...route().params,
+                                                date: date,
+                                            }),
+                                        )
+                                    }}
+                                    label={translate('Performed date')}
+                                />
+                            ),
+                        },
+                        {
+                            element: (
+                                <Select2
+                                    className={'w-[300px]'}
+                                    value={filtered_users}
+                                    isMulti={true}
+                                    onChange={selectedUser => {
+                                        let params = route().params
+                                        Inertia.get(
+                                            route(route().current(), {
+                                                ...params,
+                                                users: selectedUser,
+                                            }),
+                                        )
+                                    }}
+                                    data={users}
+                                    label={translate('Select users')}
+                                    placeholder={translate('List of all users')}
+                                    selectValue={'id'}
+                                    selectLabel={'name'}
+                                />
+                            ),
+                        },
+                    ]}
+                    deleteRoute={'destroy.activity'}
+                    objectName={'activity'}
+                    deleteRole={'log-activity-delete-log'}
+                    editAction={false}
+                    columns={[
+                        {
+                            name: 'Performed By',
+                            key: 'causer.name',
+                            translate: true,
+                            sort: true,
+                        },
+                        {
+                            name: 'Effected module',
+                            key: 'log_name',
+                            translate: true,
+                            sort: true,
+                        },
+                        {
+                            name: 'Effected model',
+                            key: 'subject_type',
+                            sort: true,
+                        },
+                        {
+                            name: 'Event',
+                            key: 'description',
+                            sort: true,
+                            translate: true,
+                        },
+                        {
+                            name: 'Performed on',
+                            key: 'created_at',
+                            sort: true,
+                            data_type: 'date',
+                            format: 'YYYY-MM-DD hh:mm A',
+                        },
+                    ]}
+                />
+            </div>
             {activityDetails && (
                 <ActivityDetails
                     translate={translate}

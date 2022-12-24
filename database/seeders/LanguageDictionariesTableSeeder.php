@@ -1118,6 +1118,60 @@ sidebar',
                 'created_at' => '2022-12-21 12:47:56',
                 'updated_at' => '2022-12-21 12:48:17',
             ),
+            122 => 
+            array (
+                'id' => 133,
+                'language_id' => 1,
+                'word' => 'Download PDF',
+                'translate' => 'دانلود PDF',
+                'created_at' => '2022-12-24 13:01:06',
+                'updated_at' => '2022-12-24 13:01:06',
+            ),
+            123 => 
+            array (
+                'id' => 134,
+                'language_id' => 1,
+                'word' => 'Download Excel',
+                'translate' => 'دانلود Excel',
+                'created_at' => '2022-12-24 13:01:23',
+                'updated_at' => '2022-12-24 13:01:23',
+            ),
+            124 => 
+            array (
+                'id' => 135,
+                'language_id' => 1,
+                'word' => 'Columns visibility',
+                'translate' => 'نمایان بودن ستون ها',
+                'created_at' => '2022-12-24 13:02:02',
+                'updated_at' => '2022-12-24 13:02:02',
+            ),
+            125 => 
+            array (
+                'id' => 136,
+                'language_id' => 1,
+                'word' => 'Log activities',
+                'translate' => 'فعالیت ها',
+                'created_at' => '2022-12-24 13:02:58',
+                'updated_at' => '2022-12-24 13:02:58',
+            ),
+            126 => 
+            array (
+                'id' => 137,
+                'language_id' => 1,
+                'word' => 'Performed date',
+                'translate' => 'تاریخ اجرا',
+                'created_at' => '2022-12-24 13:03:43',
+                'updated_at' => '2022-12-24 13:03:43',
+            ),
+            127 => 
+            array (
+                'id' => 138,
+                'language_id' => 1,
+                'word' => 'Number',
+                'translate' => 'شماره',
+                'created_at' => '2022-12-24 14:00:19',
+                'updated_at' => '2022-12-24 14:00:19',
+            ),
         ));
         
         

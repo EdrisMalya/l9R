@@ -100,7 +100,7 @@ const DatatableHead = ({
         <div>
             <div
                 className={
-                    'flex items-center justify-between flex-col md:flex-row space-x-2 space-y-3'
+                    'flex items-center justify-between flex-col md:flex-row space-x-2 '
                 }>
                 <FormControl className={'lg:w-[300px] w-full'} size={'small'}>
                     <InputLabel>{translate('Search')} ...</InputLabel>
