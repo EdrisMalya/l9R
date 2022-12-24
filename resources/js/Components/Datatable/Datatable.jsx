@@ -118,6 +118,7 @@ const Datatable = ({
                         dispatch={dispatch}
                         actions={actions}
                         showNumber={showNumber}
+                        tableData={tableData}
                     />
                     <table
                         id={'table-to-xls'}

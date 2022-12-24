@@ -66,6 +66,10 @@ Route::group(['prefix'=>'{lang}'], function(){
             Route::delete('delete/permission/{permission}', [\App\Http\Controllers\UserManagement\PermissionsController::class, 'deletePermission'])->name('delete-permission');
 
 
+            /******************************************* Helper routes **********************************/
+            Route::post('download/pdf', [\App\Http\Controllers\HelperController::class, 'downloadPdf'])->name('download.pdf');
+
+
         });
 
         /**************************************** Configuration routes ***********************************************/
