@@ -56,7 +56,6 @@ const Select2 = ({
             } else {
                 ignoreOptions = [selectedValue?.value]
             }
-            console.log(options)
             let optionArray = data?.map(item => {
                 return {
                     label: returnIsArray

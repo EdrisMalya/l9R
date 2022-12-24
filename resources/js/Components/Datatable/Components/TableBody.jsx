@@ -22,6 +22,7 @@ const TableBody = ({
     lang,
     deleteRoute,
     translate,
+    shouldIShowTheColumn
 }) => {
     let counter = 1
     const resolve = (path, obj) => {
@@ -108,7 +109,7 @@ const TableBody = ({
                 <tr>
                     <td
                         className={'text-center text-red-500 py-12'}
-                        colSpan={columns?.length + 2}>
+                        colSpan={columns?.length + 3}>
                         {translate('No record found')}
                     </td>
                 </tr>
@@ -117,7 +118,7 @@ const TableBody = ({
                     <tr
                         key={index}
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        {showNumber && (
+                        {showNumber && shouldIShowTheColumn('increment') && (
                             <th scope="col" className="py-2 px-6 font-bold">
                                 <div className="flex items-center">
                                     {counter++}
@@ -125,11 +126,13 @@ const TableBody = ({
                             </th>
                         )}
                         {columns?.map(column => (
-                            <td key={column?.key} className="py-2 px-6 text-xs">
-                                {tdDataBuilder(column, item)}
-                            </td>
+                            shouldIShowTheColumn(column.key) && (
+                                <td key={column?.key} className="py-2 px-6 text-xs">
+                                    {tdDataBuilder(column, item)}
+                                </td>
+                            )
                         ))}
-                        {actions && (
+                        {actions && shouldIShowTheColumn('actions') && (
                             <td className="py-2 px-6 text-xs">
                                 {editAction && (
                                     <ProtectedComponent role={editRole}>

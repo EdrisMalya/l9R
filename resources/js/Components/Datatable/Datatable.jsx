@@ -82,6 +82,10 @@ const Datatable = ({
         }
     }, [tableData])
 
+    const shouldIShowTheColumn = key => {
+        return !data.ignore_columns.includes(key)
+    }
+
     return (
         <div>
             <DatatableHead
@@ -107,21 +111,30 @@ const Datatable = ({
                     </div>
                 )}
                 <div className={'mt-5'}>
-                    <DatatableActions columns={columns} />
+                    <DatatableActions
+                        translate={translate}
+                        columns={columns}
+                        data={data}
+                        dispatch={dispatch}
+                        actions={actions}
+                        showNumber={showNumber}
+                    />
                     <table
+                        id={'table-to-xls'}
                         className={`w-full text-sm ${
                             direction === 'ltr' ? 'text-left' : 'text-right'
                         } text-gray-500 dark:text-gray-400`}>
                         <TableHead
                             lang={lang}
-                            data={data}
                             showNumber={showNumber}
                             columns={columns}
                             actions={actions}
+                            data={data}
                             dispatch={dispatch}
                             setTableLoading={setTableLoading}
                             datatableRoute={datatableRoute}
                             translate={translate}
+                            shouldIShowTheColumn={shouldIShowTheColumn}
                         />
                         <TableBody
                             handleEditAction={handleEditAction}
@@ -140,6 +153,7 @@ const Datatable = ({
                             lang={lang}
                             deleteRoute={deleteRoute}
                             translate={translate}
+                            shouldIShowTheColumn={shouldIShowTheColumn}
                         />
                     </table>
                 </div>

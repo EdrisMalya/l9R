@@ -26,6 +26,7 @@ const LogActivitiesIndex = ({
             title={translate('Log activities')}
             navBarOptions={<UserManagementLinks active={active} />}>
             <Datatable
+                showNumber={true}
                 data={activities}
                 otherOptions={[
                     {
@@ -71,7 +72,6 @@ const LogActivitiesIndex = ({
                                         }),
                                     )
                                 }}
-                                selectAllOption={true}
                                 data={users}
                                 label={translate('Select users')}
                                 placeholder={translate('List of all users')}
@@ -87,7 +87,7 @@ const LogActivitiesIndex = ({
                 editAction={false}
                 columns={[
                     {
-                        name: 'Performed on',
+                        name: 'Performed By',
                         key: 'causer.name',
                         translate: true,
                         sort: true,

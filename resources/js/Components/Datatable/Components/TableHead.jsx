@@ -12,6 +12,7 @@ const TableHead = ({
     lang,
     datatableRoute,
     translate,
+   shouldIShowTheColumn
 }) => {
     const sortIndicator = column => {
         if (column?.key === data.sort_by) {
@@ -71,7 +72,7 @@ const TableHead = ({
     return (
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                {showNumber && (
+                {showNumber && shouldIShowTheColumn('increment') && (
                     <th scope="col" className="py-3 px-6 font-bold">
                         <div className="flex items-center">
                             {translate('No#')}
@@ -79,20 +80,22 @@ const TableHead = ({
                     </th>
                 )}
                 {(columns ?? [])?.map((column, index) => (
-                    <th
-                        scope="col"
-                        key={index}
-                        onClick={() => handSortClick(column)}
-                        className={`py-3 px-6 font-bold ${
-                            column?.sort && 'cursor-pointer'
-                        }`}>
-                        <div className="flex items-center">
-                            {translate(column?.name)}
-                            {column?.sort && sortIndicator(column)}
-                        </div>
-                    </th>
+                    shouldIShowTheColumn(column.key)&&(
+                        <th
+                            scope="col"
+                            key={index}
+                            onClick={() => handSortClick(column)}
+                            className={`py-3 px-6 font-bold ${
+                                column?.sort && 'cursor-pointer'
+                            }`}>
+                            <div className="flex items-center">
+                                {translate(column?.name)}
+                                {column?.sort && sortIndicator(column)}
+                            </div>
+                        </th>
+                    )
                 ))}
-                {actions && (
+                {actions && shouldIShowTheColumn('actions') && (
                     <th scope="col" className="py-3 px-6 font-bold">
                         <div className="flex items-center">
                             {translate('Actions')}

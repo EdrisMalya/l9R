@@ -4,6 +4,7 @@ export const DATA_TABLE_INIT_VALUE = {
     page: 1,
     sort_by: null,
     sort_direction: 'asc',
+    ignore_columns: []
 }
 
 export const DATA_TABLE_ACTIONS = {
@@ -13,6 +14,7 @@ export const DATA_TABLE_ACTIONS = {
     RESET_ALL: 'reset-all',
     CHANGED_SORT_BY: 'change-sort-by',
     CHANGE_SORT_DIRECTION: 'change-sort-direction',
+    CHANGE_IGNORE_COLUMNS: 'change-ignore-columns',
 }
 
 export const DatatableReducer = (state, action) => {
@@ -67,6 +69,18 @@ export const DatatableReducer = (state, action) => {
             return {
                 ...state,
                 sort_direction: action.sort_direction,
+            }
+        case DATA_TABLE_ACTIONS.CHANGE_IGNORE_COLUMNS:
+            let key = action.payload.key
+            if(state.ignore_columns.includes(key)){
+                state.ignore_columns = state.ignore_columns.filter(obj => {
+                    return obj !== key
+                })
+            }else{
+                state.ignore_columns.push(key)
+            }
+            return {
+                ...state
             }
     }
 }
