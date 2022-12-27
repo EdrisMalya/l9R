@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckUserStatusAndPasswordChangeMiddleware;
 use App\Http\Middleware\LanguageMiddleware;
+use App\Http\Middleware\PublicWebsiteMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check_user' => CheckUserStatusAndPasswordChangeMiddleware::class,
-        'lang' => LanguageMiddleware::class
+        'lang' => LanguageMiddleware::class,
+        'public_website' => PublicWebsiteMiddleware::class
     ];
 }

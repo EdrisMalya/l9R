@@ -2,7 +2,7 @@ import React from 'react'
 import ProtectedComponent from '@/Components/ProtectedComponent'
 import { Link } from '@inertiajs/inertia-react'
 import { Button } from '@mui/material'
-import { LanguageIcon } from '@heroicons/react/24/outline'
+import {GlobeAltIcon, LanguageIcon} from '@heroicons/react/24/outline'
 import useLanguage from '@/hooks/useLanguage'
 
 const ConfigurationPageLinks = ({ active, lang }) => {
@@ -13,6 +13,8 @@ const ConfigurationPageLinks = ({ active, lang }) => {
                 return 'language'
             case 'backup':
                 return 'backup'
+            case 'public-website':
+                return 'public-website'
         }
     }
     return (
@@ -27,6 +29,19 @@ const ConfigurationPageLinks = ({ active, lang }) => {
                                 : 'outlined'
                         }>
                         {translate('Languages')}
+                    </Button>
+                </Link>
+            </ProtectedComponent>
+            <ProtectedComponent role={'language-access'}>
+                <Link href={route('website.index', { lang })}>
+                    <Button
+                        startIcon={<GlobeAltIcon className={'h-4'} />}
+                        variant={
+                            activeLink() === 'public-website'
+                                ? 'contained'
+                                : 'outlined'
+                        }>
+                        {translate('Public website')}
                     </Button>
                 </Link>
             </ProtectedComponent>

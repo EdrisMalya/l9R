@@ -12,12 +12,17 @@ class BackupController extends Controller
     public function index($lang, Request $request)
     {
         $this->allowed('backups-access');
-        $backups = collect(File::allFiles(storage_path('app/backups')))->map(function($file){
-            return [
-                'file_name' => $file->getFileName(),
-                'file_size' => $file->getSize()
-            ];
-        })->toArray();
+        $files = storage_path('app/backups');
+        try {
+            $backups = collect(File::allFiles($files))->map(function($file){
+                return [
+                    'file_name' => $file->getFileName(),
+                    'file_size' => $file->getSize()
+                ];
+            })->toArray();
+        } catch (\Exception $e){
+            $backups = [];
+        }
         return Inertia::render('Configuration/Backup/BackupIndex', [
             'active' => 'backup',
             'backups' => $backups
