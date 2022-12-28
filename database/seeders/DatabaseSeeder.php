@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageDictionariesTableSeeder::class);
         $this->call(ActivityLogTableSeeder::class);
         $this->call(LoginLogsTableSeeder::class);
+        $this->call(PublicWebsitesTableSeeder::class);
     }
 }

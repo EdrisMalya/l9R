@@ -40,7 +40,9 @@ class GenerateAllTableSeeders extends Command
             $file_array = explode('_create_', $file);
             if(count($file_array) > 1){
                 $file_name = explode('_table.php', $file_array[1]);
-                $file_names[] = $file_name[0];
+                if(!in_array($file_name[0], ['activity_log', 'login_logs'])){
+                    $file_names[] = $file_name[0];
+                }
             }
         }
         $file_names[] = 'migrations';

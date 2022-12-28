@@ -280,6 +280,33 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2022-12-22 10:29:14',
                 'updated_at' => '2022-12-22 10:29:14',
             ),
+            29 => 
+            array (
+                'id' => 35,
+                'permission_group_id' => 14,
+                'name' => 'Access',
+                'key' => 'public-website-access',
+                'created_at' => '2022-12-26 20:11:00',
+                'updated_at' => '2022-12-26 20:11:00',
+            ),
+            30 => 
+            array (
+                'id' => 36,
+                'permission_group_id' => 16,
+                'name' => 'Access',
+                'key' => 'pages-access',
+                'created_at' => '2022-12-27 17:49:27',
+                'updated_at' => '2022-12-27 17:49:27',
+            ),
+            31 => 
+            array (
+                'id' => 37,
+                'permission_group_id' => 15,
+                'name' => 'Access',
+                'key' => 'home-page-access',
+                'created_at' => '2022-12-27 17:49:33',
+                'updated_at' => '2022-12-27 17:49:33',
+            ),
         ));
         
         

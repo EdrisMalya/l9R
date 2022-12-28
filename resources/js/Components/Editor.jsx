@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
-function Editor({ onChange, data = null }) {
+function Editor({ onChange, data = null, error=null }) {
     const colorNames = [
         'AliceBlue',
         'AntiqueWhite',
@@ -154,7 +154,7 @@ function Editor({ onChange, data = null }) {
         'YellowGreen',
     ]
     return (
-        <div className={'prose'}>
+        <div className={`prose ${error!==null&&'border border-red-500 p-4'}`}>
             <ReactQuill
                 modules={{
                     toolbar: [
@@ -190,6 +190,7 @@ function Editor({ onChange, data = null }) {
                 onChange={e => onChange && onChange(e)}
                 defaultValue={data}
             />
+            {error!==null && <p className={'text-red-500'}>{error}</p>}
         </div>
     )
 }

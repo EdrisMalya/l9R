@@ -33,7 +33,7 @@ const ConfigurationPageLinks = ({ active, lang }) => {
                 </Link>
             </ProtectedComponent>
             <ProtectedComponent role={'language-access'}>
-                <Link href={route('website.index', { lang })}>
+                <Link href={route('website.index', { lang, active: 'main-page' })}>
                     <Button
                         startIcon={<GlobeAltIcon className={'h-4'} />}
                         variant={
