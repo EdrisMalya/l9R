@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('title');
             $table->string('image_or_slider')->default('image');
+            $table->string('image')->nullable();
             $table->string('short_description');
-            $table->string('long_description')->nullable();
+            $table->text('long_description')->nullable();
             $table->string('email');
             $table->string('phone_number');
             $table->string('address');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicWebsite;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HelperController;
 use App\Http\Requests\PublicWebsiteRequest;
 use App\Models\PublicWebsite;
 use Illuminate\Http\Request;
@@ -11,7 +12,9 @@ use Inertia\Inertia;
 class PublicWebsiteController extends Controller
 {
     public function homePage(){
-        return Inertia::render('PublicWebsite/HomePage');
+        return Inertia::render('PublicWebsite/HomePage', [
+            'website' => cache()->get('public_website_settings')
+        ]);
     }
 
     public function index($lang)
@@ -36,6 +39,23 @@ class PublicWebsiteController extends Controller
     }
 
     public function store($lang, PublicWebsiteRequest $request){
-        dd($request->validated());
+        $public_website = PublicWebsite::query()->first();
+        $data = $request->validated();
+        if($request->file('logo') != null){
+            HelperController::removeFile($public_website->logo);
+            $data['logo'] = $request->file('logo')->store('website_logo', 'public');
+        }
+        if($request->file('image') != null){
+            HelperController::removeFile($public_website->logo);
+            $data['image'] = $request->file('image')->store('website_main_page_image', 'public');
+        }
+        cache()->forget('public_website_settings');
+        if(!$public_website){
+            PublicWebsite::query()->create($data);
+            return back()->with(['type'=>'success', 'message' => translate('Saved successfully')]);
+        }else{
+            $public_website->update($data);
+            return back()->with(['type'=>'success', 'message' => translate('Updated successfully')]);
+        }
     }
 }

@@ -1,7 +1,12 @@
 import React from 'react'
-import {TextField} from "@mui/material"
+import { TextField } from '@mui/material'
 
-const WebsiteSocialMediaComponents = ({translate, data, errors, handleInputChange}) => {
+const WebsiteSocialMediaComponents = ({
+    translate,
+    data,
+    errors,
+    handleInputChange,
+}) => {
     return (
         <>
             <TextField
@@ -42,7 +47,7 @@ const WebsiteSocialMediaComponents = ({translate, data, errors, handleInputChang
             />
             <TextField
                 onChange={handleInputChange}
-                label={translate('Copy write')}
+                label={translate('Copy right')}
                 name={'copy_right'}
                 value={data.copy_right}
                 error={errors.copy_right}

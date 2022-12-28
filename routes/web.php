@@ -25,8 +25,6 @@ Route::get('/', function () {
 Route::group(['prefix'=>'{lang}'], function(){
     Route::match(['POST','GET'], 'change/password', [\App\Http\Controllers\UserManagement\UserController::class, 'change_password'])->name('change.password')->middleware(['auth']);
 
-
-
     Route::middleware('lang')->group(function(){
 
         /***************************** After login routes ************************/
@@ -53,16 +51,12 @@ Route::group(['prefix'=>'{lang}'], function(){
                 Route::resource('role', \App\Http\Controllers\UserManagement\RoleController::class);
                 Route::match(['POST', 'PUT', 'DELETE'],'save/role/group', [\App\Http\Controllers\UserManagement\RoleController::class, 'saveRoleGroup'])->name('role.group.save');
 
-
                 /****************************************** Login log ***************************************/
                 Route::resource('login_log', \App\Http\Controllers\UserManagement\LoginLogController::class);
-
 
                 /******************************************* Log activities ************************************/
                 Route::get('log/activities', [\App\Http\Controllers\UserManagement\LogActivityController::class, 'index'])->name('log.activities.index');
                 Route::delete('delete/log/activity/{activity}', [\App\Http\Controllers\UserManagement\LogActivityController::class, 'deleteLogActivity'])->name('destroy.activity');
-
-
 
                 /*************************************** Permission routes ************************************/
                 Route::resource('permissions', \App\Http\Controllers\UserManagement\PermissionsController::class);

@@ -19,7 +19,7 @@ class PublicWebsite extends Model
             return LogOptions::defaults()
                             ->logOnlyDirty()
                             ->logOnly(['*'])
-                            ->useLogName('PublicWebsite')
+                            ->useLogName('Public Website')
                             ->dontSubmitEmptyLogs()
                             ->dontLogIfAttributesChangedOnly(['updated_at'])
                             ;
