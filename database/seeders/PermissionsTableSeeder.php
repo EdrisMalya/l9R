@@ -325,6 +325,24 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2022-12-28 20:14:26',
                 'updated_at' => '2022-12-28 20:14:26',
             ),
+            34 => 
+            array (
+                'id' => 40,
+                'permission_group_id' => 17,
+                'name' => 'Update widgets',
+                'key' => 'widgets-update-widgets',
+                'created_at' => '2022-12-29 12:49:46',
+                'updated_at' => '2022-12-29 12:49:46',
+            ),
+            35 => 
+            array (
+                'id' => 41,
+                'permission_group_id' => 17,
+                'name' => 'Delete widgets',
+                'key' => 'widgets-delete-widgets',
+                'created_at' => '2022-12-29 12:49:56',
+                'updated_at' => '2022-12-29 12:49:56',
+            ),
         ));
         
         
