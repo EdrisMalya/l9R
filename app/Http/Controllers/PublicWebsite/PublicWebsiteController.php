@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
 use App\Http\Requests\PublicWebsiteRequest;
 use App\Models\PublicWebsite;
+use App\Models\Widget;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -27,7 +28,7 @@ class PublicWebsiteController extends Controller
         if(!\request()->has('active')){
             abort(404);
         }else{
-            $allowed_urls = ['main-page', 'pages', 'widgets'];
+            $allowed_urls = ['main-page', 'pages', 'widgets', 'widget-details'];
             if(!in_array($data['active_component'], $allowed_urls)) abort(404);
             switch ($data['active_component']){
                 case 'main-page':
@@ -35,7 +36,12 @@ class PublicWebsiteController extends Controller
                     break;
                 case 'widgets':
                     $this->allowed('widgets-access');
-                    $data['widgets'] = 'widgets';
+                    $data['widgets'] = Widget::query()->get();
+                    break;
+                case 'widget-details':
+                    $widget = Widget::query()->findOrFail(request()->get('widget'));
+                    $data['widget'] = $widget;
+                    break;
             }
         }
         return Inertia::render('Configuration/PublicWebsite/PublicWebsiteIndex', $data);

@@ -82,3 +82,4 @@ body{
 .home-page-links .active{
     @apply !font-bold text-[rgb(50,200,200)]
 }
+
