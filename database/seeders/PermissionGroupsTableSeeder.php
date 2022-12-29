@@ -123,6 +123,14 @@ class PermissionGroupsTableSeeder extends Seeder
                 'created_at' => '2022-12-27 17:49:22',
                 'updated_at' => '2022-12-27 17:49:22',
             ),
+            13 => 
+            array (
+                'id' => 17,
+                'permission_group_id' => 14,
+                'name' => 'Widgets',
+                'created_at' => '2022-12-28 20:05:48',
+                'updated_at' => '2022-12-28 20:05:48',
+            ),
         ));
         
         
