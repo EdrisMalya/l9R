@@ -27,12 +27,15 @@ class PublicWebsiteController extends Controller
         if(!\request()->has('active')){
             abort(404);
         }else{
-            $allowed_urls = ['main-page', 'pages'];
+            $allowed_urls = ['main-page', 'pages', 'widgets'];
             if(!in_array($data['active_component'], $allowed_urls)) abort(404);
             switch ($data['active_component']){
                 case 'main-page':
                     $data['public_website'] = PublicWebsite::query()->first();
                     break;
+                case 'widgets':
+                    $this->allowed('widgets-access');
+                    $data['widgets'] = 'widgets';
             }
         }
         return Inertia::render('Configuration/PublicWebsite/PublicWebsiteIndex', $data);

@@ -4,14 +4,12 @@ import { usePage } from '@inertiajs/inertia-react'
 import useLanguage from '@/hooks/useLanguage'
 import PageSliderOrImage from '@/Pages/PublicWebsite/Components/PageSliderOrImage'
 
-const PublicLayout = ({ children }) => {
-    const { website } = usePage().props
-    const { translate } = useLanguage()
+const PublicLayout = ({ children, translate, website }) => {
 
     return (
         <div className={'h-screen'}>
             <Navbar translate={translate} website={website} />
-            <PageSliderOrImage translate={translate} website={website} />
+            {children}
         </div>
     )
 }

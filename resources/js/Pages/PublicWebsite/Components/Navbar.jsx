@@ -11,7 +11,7 @@ const Navbar = ({ website, translate }) => {
     return (
         <>
             <div
-                className={'py-4 !bg-[rgb(35,154,161)] px-12 grid grid-cols-3'}>
+                className={'py-4 !bg-[rgb(18,119,114)] px-12 grid grid-cols-3'}>
                 <div className={'flex items-center space-x-2'}>
                     <LocalPhoneIcon />
                     <p>{website.phone_number}</p>

@@ -5,6 +5,7 @@ import WebAssetIcon from '@mui/icons-material/WebAsset';
 import PagesIcon from '@mui/icons-material/Pages';
 import {Link} from "@inertiajs/inertia-react"
 import ProtectedComponent from "@/Components/ProtectedComponent"
+import WidgetsIcon from '@mui/icons-material/Widgets';
 
 export default function PublicWebsiteSidebarLinks({active, translate}) {
     const activeLink = () => {
@@ -13,6 +14,8 @@ export default function PublicWebsiteSidebarLinks({active, translate}) {
                 return 'main-page'
             case 'pages':
                 return 'pages'
+            case 'widgets':
+                return 'widgets'
         }
     }
     return (
@@ -23,6 +26,16 @@ export default function PublicWebsiteSidebarLinks({active, translate}) {
                         <div className={'flex items-center !space-x-2'}>
                             <div><WebAssetIcon  /></div>
                             <div>{translate('Main page')}</div>
+                        </div>
+                    </Link>
+                </MenuItem>
+            </ProtectedComponent>
+            <ProtectedComponent role={'widgets-access'}>
+                <MenuItem selected={activeLink(active)==='widgets'}>
+                    <Link href={route(route().current(), { ...route().params, active: 'widgets' })}>
+                        <div className={'flex items-center !space-x-2'}>
+                            <div><WidgetsIcon  /></div>
+                            <div>{translate('Widgets')}</div>
                         </div>
                     </Link>
                 </MenuItem>

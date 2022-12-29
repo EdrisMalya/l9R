@@ -4,6 +4,7 @@ import useLanguage from "@/hooks/useLanguage"
 import ConfigurationPageLinks from "@/Pages/Configuration/ConfigurationPageLinks"
 import PublicWebsiteSidebarLinks from "@/Pages/Configuration/PublicWebsite/Components/PublicWebsiteSidebarLinks"
 import MainPageIndex from "@/Pages/Configuration/PublicWebsite/MainPage/MainPageIndex"
+import WidgetsIndex from "@/Pages/Configuration/PublicWebsite/Widgets/WidgetsIndex"
 
 const PublicWebsiteIndex = ({lang, active, active_component}) => {
     const {translate} = useLanguage()
@@ -12,6 +13,8 @@ const PublicWebsiteIndex = ({lang, active, active_component}) => {
         switch (active_component){
             case 'main-page':
                 return <MainPageIndex translate={translate} />
+            case 'widgets':
+                return <WidgetsIndex translate={translate} />
         }
     }
 

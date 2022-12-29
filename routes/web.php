@@ -85,6 +85,11 @@ Route::group(['prefix'=>'{lang}'], function(){
                 /************************************ Public website routes ********************************************/
                 Route::prefix('public')->group(function(){
                     Route::resource('/website', \App\Http\Controllers\PublicWebsite\PublicWebsiteController::class);
+
+                    /************************ Widgets title ********************************/
+                    Route::prefix('website')->group(function(){
+                        Route::resource('/widgets', \App\Http\Controllers\PublicWebsite\WidgetsController::class);
+                    });
                 });
 
                 /**************************************** backup routes ********************************************/
