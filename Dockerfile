@@ -1,30 +1,48 @@
-FROM php:7.4-apache
+# 2022 update
+FROM php:8.1-fpm
 
-# Install required PHP extensions
+# setup user as root
+USER root
+
+# Copy composer.lock and composer.json into the working directory
+COPY composer.lock composer.json /var/www/html/
+
+# Set working directory
+WORKDIR /var/www/html/
+
+# Install dependencies for the operating system software
 RUN apt-get update && apt-get install -y \
-    unixodbc \
-    unixodbc-dev \
-    freetds-dev \
-    freetds-bin \
-    tdsodbc \
-    libssl-dev \
- && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
- && apt-get install -y php7.4-sqlsrv \
- && docker-php-ext-enable sqlsrv pdo_sqlsrv
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    libzip-dev \
+    unzip \
+    libonig-dev \
+    curl
 
-# Copy the application code
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install extensions for php
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
+
+# Install composer (php package manager)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy existing application directory contents to the working directory
 COPY . /var/www/html
 
-# Set the working directory to the application root
-WORKDIR /var/www/html
+# Assign permissions of the working directory to the www-data user
+RUN chown -R www-data:www-data \
+    /var/www/html/storage \
+    /var/www/html/bootstrap/cache
 
-# Install composer dependencies
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
- && composer install
-
-# Set permissions on storage and bootstrap/cache directories
-RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Expose port 80 and start the Apache web server
-EXPOSE 9001
-CMD ["apache2-foreground"]
+# Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
+EXPOSE 9005
+CMD ["php-fpm"]
