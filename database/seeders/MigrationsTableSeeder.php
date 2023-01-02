@@ -121,6 +121,18 @@ class MigrationsTableSeeder extends Seeder
                 'migration' => '2022_12_19_102550_create_system_backup_logs_table',
                 'batch' => 7,
             ),
+            17 => 
+            array (
+                'id' => 18,
+                'migration' => '2022_12_26_193928_create_public_websites_table',
+                'batch' => 8,
+            ),
+            18 => 
+            array (
+                'id' => 19,
+                'migration' => '2022_12_29_092027_create_widgets_table',
+                'batch' => 9,
+            ),
         ));
         
         

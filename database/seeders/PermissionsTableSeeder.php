@@ -280,6 +280,69 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2022-12-22 10:29:14',
                 'updated_at' => '2022-12-22 10:29:14',
             ),
+            29 => 
+            array (
+                'id' => 35,
+                'permission_group_id' => 14,
+                'name' => 'Access',
+                'key' => 'public-website-access',
+                'created_at' => '2022-12-26 20:11:00',
+                'updated_at' => '2022-12-26 20:11:00',
+            ),
+            30 => 
+            array (
+                'id' => 36,
+                'permission_group_id' => 16,
+                'name' => 'Access',
+                'key' => 'pages-access',
+                'created_at' => '2022-12-27 17:49:27',
+                'updated_at' => '2022-12-27 17:49:27',
+            ),
+            31 => 
+            array (
+                'id' => 37,
+                'permission_group_id' => 15,
+                'name' => 'Access',
+                'key' => 'home-page-access',
+                'created_at' => '2022-12-27 17:49:33',
+                'updated_at' => '2022-12-27 17:49:33',
+            ),
+            32 => 
+            array (
+                'id' => 38,
+                'permission_group_id' => 17,
+                'name' => 'Access',
+                'key' => 'widgets-access',
+                'created_at' => '2022-12-28 20:05:53',
+                'updated_at' => '2022-12-28 20:05:53',
+            ),
+            33 => 
+            array (
+                'id' => 39,
+                'permission_group_id' => 17,
+                'name' => 'Create widgets',
+                'key' => 'widgets-create-widgets',
+                'created_at' => '2022-12-28 20:14:26',
+                'updated_at' => '2022-12-28 20:14:26',
+            ),
+            34 => 
+            array (
+                'id' => 40,
+                'permission_group_id' => 17,
+                'name' => 'Update widgets',
+                'key' => 'widgets-update-widgets',
+                'created_at' => '2022-12-29 12:49:46',
+                'updated_at' => '2022-12-29 12:49:46',
+            ),
+            35 => 
+            array (
+                'id' => 41,
+                'permission_group_id' => 17,
+                'name' => 'Delete widgets',
+                'key' => 'widgets-delete-widgets',
+                'created_at' => '2022-12-29 12:49:56',
+                'updated_at' => '2022-12-29 12:49:56',
+            ),
         ));
         
         

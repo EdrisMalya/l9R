@@ -73,3 +73,13 @@ body{
 .ql-picker-options{
     @apply dark:!bg-gray-900
 }
+.home-page-links {
+    @apply mt-8 flex
+}
+.home-page-links li {
+    @apply inline-block px-4 text-lg font-semibold cursor-pointer shadow-xl flex items-center
+}
+.home-page-links .active{
+    @apply !font-bold text-[rgb(50,200,200)]
+}
+
